@@ -22,8 +22,11 @@ This is the Meandering Sleep Flutter app. You can download it from the [Apple Ap
     * Ensure your Apple ID is setup for signing
     * Bundle Identifier is set to ``` net.coventry.sleepless ```
     * Background Modes includes ``` Audio ```
-* Run ``` make install ``` to make sure flutter dependencies are up-to-date
 * Run ``` flutter doctor ``` to make sure flutter's in good shape.
+
+## Running unit tests
+
+`flutter test`
 
 ## Running integration tests
 
@@ -31,18 +34,6 @@ This is the Meandering Sleep Flutter app. You can download it from the [Apple Ap
 
 ```
 flutter test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=https://domain/
-```
-
-## Hosted Assets for testing
-* Public R2 object
-  * https://pub-7d76c823f6a64c759ac65c67758b2530.r2.dev/sleepless-2024-02-24.mp3
-
-## Running checks
-
-This checks formatting, runs tests and checks for dependency cycles. From the root repository directory where the Makefile sits run the following.
-
-```
-make check
 ```
 
 ## Running the app
@@ -110,8 +101,6 @@ etc
 
 * I've found Chrome to work even though we haven't explicitly indicate that the app can build/run there.
 * major issue though is that Chrome doesn't support mp3 files for audio playback, so while you can run/test the UI, audio won't play.
-
-
 
 ### Formatting
 
