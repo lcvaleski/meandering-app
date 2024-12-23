@@ -33,6 +33,9 @@ class SeekBarState extends State<SeekBar> {
 
     _sliderThemeData = SliderTheme.of(context).copyWith(
       trackHeight: 2.0,
+      activeTrackColor: Colors.yellow,
+      thumbColor: Colors.white,
+      overlayColor: Colors.red.withOpacity(0.2),
     );
   }
 
