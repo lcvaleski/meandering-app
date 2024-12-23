@@ -238,7 +238,10 @@ class ControlButtons extends StatelessWidget {
                 margin: const EdgeInsets.all(8.0),
                 width: 50.0,
                 height: 50.0,
-                child: const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow)),
+                child: const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
+                  strokeWidth: 8.0,
+                ),
               );
             } else if (playing != true) {
               return IconButton(
