@@ -268,9 +268,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         ElevatedButton(
                           onPressed: _launchEmail,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey.withOpacity(0.2),
+                          ),
                           child: Text(
                             'support@coventrylabs.net',
-                          )
+                            style: TextStyle(
+                              color: Colors.yellow.withOpacity(0.7)
+                            )
+                          ),
                         )
                       ],
                     ),
