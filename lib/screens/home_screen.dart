@@ -247,16 +247,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.only(top: 15, bottom: 30),
                   child: Container(
                     width: 300,
-                    height: 250,
+                    // Remove fixed height
+                    constraints: BoxConstraints(maxWidth: 300),
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 20, right: 20, top: 30),
-                          child: Text(
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
                             'Meandering is a project aimed at finding the sweet spot '
                                 'for sleep audio through AI generated text-to-speech.\n\n'
                                 'If you have any feedback:\n',
@@ -265,20 +267,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                        ),
-                        ElevatedButton(
-                          onPressed: _launchEmail,
-                          style: ElevatedButton.styleFrom(
+                          ElevatedButton(
+                            onPressed: _launchEmail,
+                            style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey.withOpacity(0.2),
-                          ),
-                          child: Text(
-                            'support@coventrylabs.net',
-                            style: TextStyle(
-                              color: Colors.yellow.withOpacity(0.7)
-                            )
-                          ),
-                        )
-                      ],
+                            ),
+                            child: Text(
+                                'support@coventrylabs.net',
+                                style: TextStyle(
+                                    color: Colors.yellow.withOpacity(0.7)
+                                )
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 )
