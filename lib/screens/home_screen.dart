@@ -1,13 +1,32 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sleepless_app/screens/play_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+}
+
+Future<void> _launchEmail() async {
+  final Uri emailLaunchUri = Uri(
+    scheme: 'mailto',
+    path: 'support@coventrylabs.net',
+    query: 'subject=Meandering Feedback'
+  );
+  try {
+    if (!await launchUrl(emailLaunchUri)) {
+      throw 'Could not launch email';
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error launching email: $e');
+    }
+  }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -228,23 +247,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.only(top: 15, bottom: 30),
                   child: Container(
                     width: 300,
-                    height: 200,
+                    height: 250,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 30),
-                      child: Text(
-                        'Meandering is a project aimed at finding the sweet spot '
-                        'for sleep audio through AI generated text-to-speech.\n\n'
-                        'If you have any feedback:\n'
-                        'support@coventrylabs.net',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.25),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 20, right: 20, top: 30),
+                          child: Text(
+                            'Meandering is a project aimed at finding the sweet spot '
+                                'for sleep audio through AI generated text-to-speech.\n\n'
+                                'If you have any feedback:\n',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.25),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        textAlign: TextAlign.center,
-                      ),
+                        ElevatedButton(
+                          onPressed: _launchEmail,
+                          child: Text(
+                            'support@coventrylabs.net',
+                          )
+                        )
+                      ],
                     ),
                   ),
                 )
