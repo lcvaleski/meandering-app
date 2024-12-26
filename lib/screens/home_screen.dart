@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? _selectedGender = 'male';
   String? _selectedStory = 'meandering';
-  bool showEmailForm = true;
 
   final TextStyle _genderStyle = const TextStyle(
       color: Colors.white,
