@@ -24,30 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Colors.white,
       fontSize: 16);
 
-  late TextEditingController _textController;
-
-  Future<void> _loadPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      showEmailForm = !(prefs.getBool('email_submitted') ?? false);
-    });
-  }
-
-  Future<void> _savePrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setBool('email_submitted', !showEmailForm);
-    });
-  }
-
   @override void initState() {
-    _textController = TextEditingController();
-    _loadPrefs();
     super.initState();
   }
 
   @override void dispose() {
-    _textController.dispose();
     super.dispose();
   }
 
@@ -57,8 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         centerTitle: true,
           title: SvgPicture.asset(
-            width: 50,
-            height: 50,
+            width: 45,
+            height: 45,
             'assets/images/logo.svg',
           ),
             backgroundColor: Colors.transparent
@@ -243,106 +224,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                     );
                                   },
                                 ),
-                              )
+                              ),
                             ]
-                        )
+                        ),
                       ]
                   ),
                 ),
-          Visibility(visible: showEmailForm, child: Column ( children: [
-                      Container (
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Text('Stay up to date',
-                      style: TextStyle(
-                        color: Colors.grey.withOpacity(0.9),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat-Bold',
-                        fontSize: 18,
-                      ),
-                  ),
-                ),
-                Container(
-                  width: 290, // Add horizontal padding to the container
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 0,
-                        blurRadius: 3,
-                        offset: const Offset(0, 10), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 65,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.5),
-                            borderRadius: const BorderRadius.horizontal(left: Radius.circular(15.0)),
-                          ),
-                          child: Form(
-                            key: const Key('email_form'),
-                            child: CupertinoTextFormFieldRow(
-                              controller: _textController,
-                              placeholder: 'Email address',
-                              placeholderStyle: const TextStyle(
-                                color: Colors.white12,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Montserrat-Bold',
-                              ),
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
-                              validator: (email) =>
-                              email != null && !EmailValidator.validate(email)
-                                  ? 'Enter a valid email'
-                                  : null,
-                              decoration: const BoxDecoration(
-                                border: Border(right: BorderSide.none),
-                              ),
-                            ),
-                          ),
+                Padding(
+                  padding: EdgeInsets.only(left: 50, right: 50, top: 20, bottom: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 30),
+                      child: Text(
+                        'Meandering is a project aimed at finding the sweet spot '
+                        'for sleep audio through AI generated text-to-speech.\n\n'
+                        'If you have any feedback:\n'
+                        'support@coventrylabs.net',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.25),
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                      Container(
-                        width: 70,
-                        height: 65,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.5),
-                          borderRadius: const BorderRadius.horizontal(right: Radius.circular(15.0)),
-                        ),
-                        child: MaterialButton(
-                          padding: EdgeInsets.zero,
-                          child: const Opacity(
-                            opacity: 0.75,
-                            child: Icon(
-                              Icons.check_circle_outline_rounded,
-                              color: Colors.yellow,
-                              size: 28,
-                            ),
-                          ),
-                          onPressed: () async {
-                            saveEmail(_textController.text);
-                            showEmailForm = false;
-                            _savePrefs();
-                            Fluttertoast.showToast(
-                                msg: 'You have been subscribed.',
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.grey[800],
-                                textColor: Colors.white,
-                                fontSize: 16.0
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                ]))
+                )
               ],
             ),
           ),

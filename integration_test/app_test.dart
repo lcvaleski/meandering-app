@@ -9,27 +9,6 @@ void main() async {
 
   group('end-to-end test', () {
 
-    testWidgets('do not show the email capture form if the user already submitted.',
-            (tester) async {
-              SharedPreferences.setMockInitialValues(<String, Object> {
-                    'email_submitted': true,
-              });
-
-              await tester.pumpWidget(const App());
-              await tester.pumpAndSettle();
-
-              final emailFormSection = find.byKey(const Key('email_form'));
-              expect(emailFormSection, findsNothing);
-            });
-
-    testWidgets('make sure the email capture form appears by default',
-            (tester) async {
-              await tester.pumpWidget(const App());
-
-              final emailFormSection = find.byKey(const Key('email_form'));
-              expect(emailFormSection, findsOneWidget);
-        });
-
     testWidgets('tap on the female gender button, verify selected',
             (tester) async {
           // Load app widget.
