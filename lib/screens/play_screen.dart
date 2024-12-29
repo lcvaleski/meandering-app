@@ -97,7 +97,8 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
     // Try to load audio from a source and catch any errors.
     try {
         await loadJsonAsset();
-
+          final thumbnailUri = const String.fromEnvironment('GS_GET_THUMBNAIL_URL');
+          final finalThumbnailUri = thumbnailUri + '${widget.selectedStory}_thumbnail.png';
           final source = AudioSource.uri(
           Uri.parse(audioUrl),
           tag: MediaItem(
@@ -106,6 +107,7 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
             // Metadata to display in the notification:
             album: 'Sleepless',
             title: '${widget.selectedStory}',
+            artUri: Uri.parse(finalThumbnailUri),
           ),
         );
 
