@@ -20,10 +20,12 @@ workflows:
         script: |
           flutter build appbundle --release \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
+            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
       - name: Build APK with Flutter
         script: |
           flutter build apk --release \
-            --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL
+            --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
+            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
       - build/app/outputs/bundle/release/app-release.aab
@@ -67,7 +69,8 @@ workflows:
             --build-name=0.1.4 \
             --build-number=6 \
             --export-options-plist=/Users/builder/export_options.plist \
-            --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL
+            --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
+            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
