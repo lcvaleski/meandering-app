@@ -17,9 +17,7 @@ dependencies:
       ref: release/0.1.0
 
   shared_preferences: any
-  cupertino_icons: ^1.0.2
   http: ^1.2.1
-  logger: ^2.1.0
   intl: ^0.19.0
   flutter_svg: ^2.0.14
   animated_segmented_tab_control: ^2.0.0
@@ -28,9 +26,6 @@ dependencies:
   firebase_core: ^3.5.0
   firebase_analytics: ^11.3.2
   firebase_crashlytics: ^4.1.2
-  email_validator: ^3.0.0
-  fluttertoast: ^8.2.5
-
   audio_session: any
   rxdart: any
   url_launcher: ^6.3.1
