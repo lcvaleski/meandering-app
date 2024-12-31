@@ -24,6 +24,12 @@ This is the Meandering Sleep Flutter app. You can download it from the [Apple Ap
     * Background Modes includes ``` Audio ```
 * Run ``` flutter doctor ``` to make sure flutter's in good shape.
 
+## Environment Variables
+```
+GF_GET_AUDIO_URL=https://some-url (all tests/builds)
+GS_GET_THUMBNAIL_URL=https://some-other-url (include for production builds)
+```
+
 ## Running unit tests
 
 `flutter test --dart-define=GF_GET_AUDIO_URL=https://domain/`

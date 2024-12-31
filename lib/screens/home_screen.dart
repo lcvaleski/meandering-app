@@ -166,7 +166,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(builder: (context) =>
                                             PlayScreen(selectedGender: _selectedGender,
-                                                selectedStory: _selectedStory)),
+                                                selectedStory: _selectedStory),
+                                          settings: RouteSettings(
+                                            name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
+                                          )),
                                       );
                                     },
                                   ),
@@ -200,7 +203,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(builder: (context) =>
                                             PlayScreen(selectedGender: _selectedGender,
-                                                selectedStory: _selectedStory)),
+                                                selectedStory: _selectedStory),
+                                            settings: RouteSettings(
+                                              name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
+                                            )),
                                       );
                                     },
                                   ),
@@ -233,7 +239,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       context,
                                       MaterialPageRoute(builder: (context) =>
                                           PlayScreen(selectedGender: _selectedGender,
-                                              selectedStory: _selectedStory)),
+                                              selectedStory: _selectedStory),
+                                          settings: RouteSettings(
+                                            name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
+                                          )),
                                     );
                                   },
                                 ),

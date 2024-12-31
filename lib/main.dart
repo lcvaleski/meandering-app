@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sleepless_app/screens/home_screen.dart';
@@ -6,12 +7,23 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+
+bool get isTestEnv => Platform.environment.containsKey('FLUTTER_TEST');
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    // setup Firebase Analytics if we're NOT in a testing environment
+    FirebaseAnalyticsObserver? observer;
+    if (!isTestEnv) {
+      final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+      observer = FirebaseAnalyticsObserver(analytics: analytics);
+    };
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -29,6 +41,9 @@ class App extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF1B1E40),
       ),
       home: const HomeScreen(),
+      navigatorObservers: [
+        if (observer != null) observer,
+      ],
     );
   }
 }

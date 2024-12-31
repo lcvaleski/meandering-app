@@ -24,8 +24,8 @@ dependencies:
   just_audio: ^0.9.37
   just_audio_background: ^0.0.1-beta.11
   firebase_core: ^3.5.0
-  firebase_analytics: ^11.3.2
-  firebase_crashlytics: ^4.1.2
+  firebase_analytics: ^11.3.6
+  firebase_crashlytics: ^4.2.0
   audio_session: any
   rxdart: any
   url_launcher: ^6.3.1
