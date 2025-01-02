@@ -32,7 +32,7 @@ GS_GET_THUMBNAIL_URL=https://some-other-url (include for production builds)
 
 ## Running unit tests
 
-`flutter test --dart-define=GF_GET_AUDIO_URL=https://domain/`
+`flutter test --dart-define=GF_GET_AUDIO_URL=https://domain/ --dart-define=GS_GET_STORAGE_URL=https://domain/`
 
 ## Running integration tests
 
