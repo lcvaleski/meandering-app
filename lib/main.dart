@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:sleepless_app/screens/audio_list_screen.dart';
 import 'package:sleepless_app/screens/home_screen.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +41,7 @@ class App extends StatelessWidget {
         fontFamily: 'Montserrat',
         scaffoldBackgroundColor: const Color(0xFF1B1E40),
       ),
-      home: const HomeScreen(),
+      home: AudioListScreen(),
       navigatorObservers: [
         if (observer != null) observer,
       ],
