@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import '../models/audio_item.dart';
 
 Future<Map<String, Map<String, List<AudioItem>>>> fetchAudioList() async {
-  final response = await http.get(Uri.parse('https://storage.googleapis.com/active-audio/audio_metadata.json'));
+  print(String.fromEnvironment('GF_GET_AUDIO_LIST_JSON_URL'));
+  final response = await http.get(Uri.parse(const String.fromEnvironment('GF_GET_AUDIO_LIST_JSON_URL')));
 
   if (response.statusCode == 200) {
     final List<dynamic> jsonData = json.decode(response.body)['audios'];

@@ -41,7 +41,7 @@ class App extends StatelessWidget {
         fontFamily: 'Montserrat',
         scaffoldBackgroundColor: const Color(0xFF1B1E40),
       ),
-      home: AudioListScreen(),
+      home: HomeScreen(),
       navigatorObservers: [
         if (observer != null) observer,
       ],

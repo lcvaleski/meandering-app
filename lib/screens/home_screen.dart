@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sleepless_app/screens/audio_list_screen.dart';
 import 'package:sleepless_app/screens/play_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -166,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(builder: (context) =>
                                             PlayScreen(selectedGender: _selectedGender,
-                                                selectedStory: _selectedStory),
+                                                selectedStory: _selectedStory, isArchived: false,),
                                           settings: RouteSettings(
                                             name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
                                           )),
@@ -203,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         context,
                                         MaterialPageRoute(builder: (context) =>
                                             PlayScreen(selectedGender: _selectedGender,
-                                                selectedStory: _selectedStory),
+                                                selectedStory: _selectedStory, isArchived: false,),
                                             settings: RouteSettings(
                                               name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
                                             )),
@@ -239,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       context,
                                       MaterialPageRoute(builder: (context) =>
                                           PlayScreen(selectedGender: _selectedGender,
-                                              selectedStory: _selectedStory),
+                                              selectedStory: _selectedStory, isArchived: false,),
                                           settings: RouteSettings(
                                             name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
                                           )),
@@ -292,7 +293,40 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                )
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AudioListScreen(selectedStory: "meandering", selectedGender: _selectedGender,),
+                        ),
+                    );
+                  },
+                  child: Text("Meandering list"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AudioListScreen(selectedStory: "boring", selectedGender: _selectedGender,),
+                      ),
+                    );
+                  },
+                  child: Text("Boring list"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AudioListScreen(selectedStory: "weather", selectedGender: _selectedGender,),
+                      ),
+                    );
+                  },
+                  child: Text("Weather list"),
+                ),
               ],
             ),
           ),
