@@ -67,8 +67,8 @@ workflows:
       - name: Flutter build ipa and automatic versioning
         script: |
           flutter build ipa --release \
-            --build-name=0.1.4 \
-            --build-number=7 \
+            --build-name=0.1.5 \
+            --build-number=8 \
             --export-options-plist=/Users/builder/export_options.plist \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
             --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL \
