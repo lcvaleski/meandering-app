@@ -277,14 +277,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AudioListScreen(
-                          selectedStory: "meandering",
+                          selectedStory: 'meandering',
                           selectedGender: _selectedGender,
                         ),
                       ),
                     );
                   },
                   child: Text(
-                    "Meandering library",
+                    'Meandering library',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -304,14 +304,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AudioListScreen(
-                          selectedStory: "boring",
+                          selectedStory: 'boring',
                           selectedGender: _selectedGender,
                         ),
                       ),
                     );
                   },
                   child: Text(
-                    "Boring library",
+                    'Boring library',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -331,14 +331,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AudioListScreen(
-                          selectedStory: "weather",
+                          selectedStory: 'weather',
                           selectedGender: _selectedGender,
                         ),
                       ),
                     );
                   },
                   child: Text(
-                    "Weather library",
+                    'Weather library',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
