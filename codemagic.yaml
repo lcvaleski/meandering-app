@@ -15,7 +15,7 @@ workflows:
     scripts:
       - name: Run unit tests
         script: |
-          flutter test --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
+          flutter test --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=GF_GET_AUDIO_LIST_JSON_URL
       - name: Build AAB with Flutter
         script: |
           flutter build appbundle --release \
@@ -25,7 +25,8 @@ workflows:
         script: |
           flutter build apk --release \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
-            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
+            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL \
+            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=GF_GET_AUDIO_LIST_JSON_URL
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
       - build/app/outputs/bundle/release/app-release.aab
@@ -59,7 +60,7 @@ workflows:
     scripts:
       - name: Run unit tests
         script: |
-          flutter test --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
+          flutter test --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=GF_GET_AUDIO_LIST_JSON_URL
       - name: Set up code signing settings
         script: |
           xcode-project use-profiles
@@ -70,7 +71,8 @@ workflows:
             --build-number=7 \
             --export-options-plist=/Users/builder/export_options.plist \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
-            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
+            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL \
+            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=GF_GET_AUDIO_LIST_JSON_URL
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
