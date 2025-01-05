@@ -15,10 +15,9 @@ class HomeScreen extends StatefulWidget {
 
 Future<void> _launchEmail() async {
   final Uri emailLaunchUri = Uri(
-    scheme: 'mailto',
-    path: 'support@coventrylabs.net',
-    query: 'subject=Meandering Feedback'
-  );
+      scheme: 'mailto',
+      path: 'support@coventrylabs.net',
+      query: 'subject=Meandering Feedback');
   try {
     if (!await launchUrl(emailLaunchUri)) {
       throw 'Could not launch email';
@@ -34,15 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
   String? _selectedGender = 'male';
   String? _selectedStory = 'meandering';
 
-  final TextStyle _genderStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 16);
+  final TextStyle _genderStyle =
+      const TextStyle(color: Colors.white, fontSize: 16);
 
-  @override void initState() {
+  @override
+  void initState() {
     super.initState();
   }
 
-  @override void dispose() {
+  @override
+  void dispose() {
     super.dispose();
   }
 
@@ -50,27 +50,25 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+          centerTitle: true,
           title: SvgPicture.asset(
             width: 45,
             height: 45,
             'assets/images/logo.svg',
           ),
-            backgroundColor: Colors.transparent
-      ),
+          backgroundColor: Colors.transparent),
       body: Container(
         constraints: const BoxConstraints.expand(),
-        child: SafeArea (
-          child: SingleChildScrollView (
+        child: SafeArea(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                     padding: const EdgeInsets.only(top: 45.0, bottom: 15),
-                    child: SvgPicture.asset('assets/images/speakingicon.svg')
-                ),
-                Container (
+                    child: SvgPicture.asset('assets/images/speakingicon.svg')),
+                Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
@@ -78,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.black.withOpacity(0.2),
                         spreadRadius: 0,
                         blurRadius: 3,
-                        offset: const Offset(0, -2), // changes position of shadow
+                        offset:
+                            const Offset(0, -2), // changes position of shadow
                       ),
                     ],
                   ),
@@ -95,14 +94,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 10.0),
                           child: Text('Male',
-                              key: const Key('maleKey'),
-                              style: _genderStyle
-                          ),
+                              key: const Key('maleKey'), style: _genderStyle),
                         ),
                         'female': Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 15.0, horizontal: 10.0),
-                          child: Text('Female',
+                          child: Text(
+                            'Female',
                             key: const Key('femaleKey'),
                             style: _genderStyle,
                           ),
@@ -117,146 +115,158 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Container (
+                Container(
                   padding: const EdgeInsets.only(top: 15, bottom: 15),
-                  child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        Container(
+                  child: Stack(alignment: Alignment.center, children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 0,
+                            blurRadius: 3,
+                            offset: const Offset(
+                                0, 0), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child:
+                          SvgPicture.asset('assets/images/buttoncontainer.svg'),
+                    ),
+                    Column(children: [
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(35),
+                            borderRadius: BorderRadius.circular(15),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.2),
                                 spreadRadius: 0,
                                 blurRadius: 3,
-                                offset: const Offset(0, 0), // changes position of shadow
+                                offset: const Offset(
+                                    0, 6), // changes position of shadow
                               ),
                             ],
                           ),
+                          child: MaterialButton(
+                            padding: const EdgeInsets.all(0.0),
+                            key: const Key('meandering'),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: SvgPicture.asset(
+                              'assets/images/meanderingbutton.svg',
+                            ),
+                            onPressed: () {
+                              _selectedStory = 'meandering';
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PlayScreen(
+                                          selectedGender: _selectedGender,
+                                          selectedStory: _selectedStory,
+                                          isArchived: false,
+                                        ),
+                                    settings: RouteSettings(
+                                      name:
+                                          '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
+                                    )),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 0,
+                                blurRadius: 3,
+                                offset: const Offset(
+                                    0, 6), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: MaterialButton(
+                            padding: const EdgeInsets.all(0.0),
+                            key: const Key('boring'),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: SvgPicture.asset(
+                              'assets/images/boringbutton.svg',
+                            ),
+                            onPressed: () {
+                              _selectedStory = 'boring';
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PlayScreen(
+                                          selectedGender: _selectedGender,
+                                          selectedStory: _selectedStory,
+                                          isArchived: false,
+                                        ),
+                                    settings: RouteSettings(
+                                      name:
+                                          '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
+                                    )),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        // padding: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 0,
+                              blurRadius: 3,
+                              offset: const Offset(
+                                  0, 6), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: MaterialButton(
+                          padding: const EdgeInsets.all(0.0),
+                          key: const Key('port'),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           child: SvgPicture.asset(
-                              'assets/images/buttoncontainer.svg'),
-                        ),
-                        Column(
-                            children: [
-                              Container (
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: Container (
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 0,
-                                        blurRadius: 3,
-                                        offset: const Offset(0, 6), // changes position of shadow
+                            'assets/images/portbutton.svg',
+                          ),
+                          onPressed: () {
+                            _selectedStory = 'weather';
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PlayScreen(
+                                        selectedGender: _selectedGender,
+                                        selectedStory: _selectedStory,
+                                        isArchived: false,
                                       ),
-                                    ],
-                                  ),
-                                  child: MaterialButton(
-                                    padding: const EdgeInsets.all(0.0),
-                                    key: const Key('meandering'),
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    child: SvgPicture.asset(
-                                      'assets/images/meanderingbutton.svg',
-                                    ),
-                                    onPressed: () {
-                                      _selectedStory = 'meandering';
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) =>
-                                            PlayScreen(selectedGender: _selectedGender,
-                                                selectedStory: _selectedStory, isArchived: false,),
-                                          settings: RouteSettings(
-                                            name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
-                                          )),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Container (
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: Container (
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 0,
-                                        blurRadius: 3,
-                                        offset: const Offset(0, 6), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: MaterialButton(
-                                    padding: const EdgeInsets.all(0.0),
-                                    key: const Key('boring'),
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    child: SvgPicture.asset(
-                                      'assets/images/boringbutton.svg',
-                                    ),
-                                    onPressed: () {
-                                      _selectedStory = 'boring';
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) =>
-                                            PlayScreen(selectedGender: _selectedGender,
-                                                selectedStory: _selectedStory, isArchived: false,),
-                                            settings: RouteSettings(
-                                              name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
-                                            )),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Container (
-                                // padding: EdgeInsets.only(bottom: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      spreadRadius: 0,
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 6), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: MaterialButton(
-                                  padding: const EdgeInsets.all(0.0),
-                                  key: const Key('port'),
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  child: SvgPicture.asset(
-                                    'assets/images/portbutton.svg',
-                                  ),
-                                  onPressed: () {
-                                    _selectedStory = 'weather';
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) =>
-                                          PlayScreen(selectedGender: _selectedGender,
-                                              selectedStory: _selectedStory, isArchived: false,),
-                                          settings: RouteSettings(
-                                            name: '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
-                                          )),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ]
+                                  settings: RouteSettings(
+                                    name:
+                                        '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
+                                  )),
+                            );
+                          },
                         ),
-                      ]
-                  ),
+                      ),
+                    ]),
+                  ]),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.3),
-                    minimumSize: Size(300, 50), // Made taller for more rectangular shape
+                    backgroundColor: Colors.grey.withOpacity(0.2),
+                    minimumSize: Size(300, 50),
+                    // Made taller for more rectangular shape
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -265,7 +275,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AudioListScreen(selectedStory: "meandering", selectedGender: _selectedGender,),
+                        builder: (context) => AudioListScreen(
+                          selectedStory: "meandering",
+                          selectedGender: _selectedGender,
+                        ),
                       ),
                     );
                   },
@@ -277,8 +290,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 16),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.3),
-                    minimumSize: Size(300, 50), // Made taller for more rectangular shape
+                    backgroundColor: Colors.grey.withOpacity(0.2),
+                    minimumSize: Size(300, 50),
+                    // Made taller for more rectangular shape
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -287,7 +301,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AudioListScreen(selectedStory: "boring", selectedGender: _selectedGender,),
+                        builder: (context) => AudioListScreen(
+                          selectedStory: "boring",
+                          selectedGender: _selectedGender,
+                        ),
                       ),
                     );
                   },
@@ -299,8 +316,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 16),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.3),
-                    minimumSize: Size(300, 50), // Made taller for more rectangular shape
+                    backgroundColor: Colors.grey.withOpacity(0.2),
+                    minimumSize: Size(300, 50),
+                    // Made taller for more rectangular shape
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -309,7 +327,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AudioListScreen(selectedStory: "weather", selectedGender: _selectedGender,),
+                        builder: (context) => AudioListScreen(
+                          selectedStory: "weather",
+                          selectedGender: _selectedGender,
+                        ),
                       ),
                     );
                   },
@@ -335,8 +356,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             'Meandering is a project aimed at finding the sweet spot '
-                                'for sleep audio through AI generated text-to-speech.\n\n'
-                                'If you have any feedback:\n',
+                            'for sleep audio through AI generated text-to-speech.\n\n'
+                            'If you have any feedback:\n',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.25),
                             ),
@@ -347,12 +368,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey.withOpacity(0.2),
                             ),
-                            child: Text(
-                                'support@coventrylabs.net',
+                            child: Text('support@coventrylabs.net',
                                 style: TextStyle(
-                                    color: Colors.yellow.withOpacity(0.7)
-                                )
-                            ),
+                                    color: Colors.yellow.withOpacity(0.7))),
                           )
                         ],
                       ),

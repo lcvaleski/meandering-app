@@ -26,7 +26,19 @@ class _AudioListScreenState extends State<AudioListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('${widget.selectedStory} List')),
+      appBar: AppBar(
+        title: Text(
+          '${widget.selectedStory} library',
+          style: TextStyle(
+            color: Colors.white
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color: Colors.yellow,
+        ),
+      ),
       body: FutureBuilder<Map<String, Map<String, List<AudioItem>>>>(
         future: futureAudioList,
         builder: (context, snapshot) {
@@ -103,7 +115,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
         style: TextStyle(color: Colors.white),
       ),
       trailing: IconButton(
-        icon: const Icon(Icons.play_arrow, color: Colors.blue),
+        icon: const Icon(Icons.play_arrow, color: Colors.yellow),
         onPressed: () => _navigateToPlayScreen(item.id),
       ),
     );
