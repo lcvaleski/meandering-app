@@ -51,7 +51,6 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final newAudioUrl = data['response'];
-        print(newAudioUrl);
         if (newAudioUrl.isNotEmpty) {
           setState(() => audioUrl = newAudioUrl);
           await _init();

@@ -31,7 +31,7 @@ void main() async {
 
           // Verify the state changed.
           expect(tester.widget<CupertinoSlidingSegmentedControl>(genderSlider).groupValue, 'female');
-        });
+      });
 
     testWidgets('make sure the playback speed and volume dialogs load',
             (tester) async {
@@ -82,5 +82,18 @@ void main() async {
           speedDialog = find.byKey(const Key('speed'));
           expect(speedDialog, findsNothing);
     });
+    testWidgets('tap on a library button, verify screen loads',
+            (tester) async {
+                  await tester.pumpWidget(const App());
+
+                  final meanderButton = find.byKey(const Key('meandering_library'));
+                  expect(meanderButton, findsOneWidget);
+
+                  await tester.tap(meanderButton);
+                  await tester.pumpAndSettle();
+
+                  final appBar = find.byKey(const Key('audioListScreenAppBar'));
+                  expect(appBar, findsOneWidget);
+        });
   });
 }

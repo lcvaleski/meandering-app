@@ -263,6 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]),
                 ),
                 ElevatedButton(
+                  key: const Key('meandering_library'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey.withOpacity(0.2),
                     minimumSize: Size(300, 50),
@@ -289,6 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
+                  key: const Key('boring_library'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey.withOpacity(0.2),
                     minimumSize: Size(300, 50),
@@ -315,6 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
+                  key: const Key('weather_library'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey.withOpacity(0.2),
                     minimumSize: Size(300, 50),
@@ -364,6 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             textAlign: TextAlign.center,
                           ),
                           ElevatedButton(
+                            key: const Key('feedback_button'),
                             onPressed: _launchEmail,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey.withOpacity(0.2),

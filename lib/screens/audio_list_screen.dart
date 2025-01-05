@@ -27,6 +27,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        key: const Key('audioListScreenAppBar'),
         title: Text(
           '${widget.selectedStory} library',
           style: TextStyle(
