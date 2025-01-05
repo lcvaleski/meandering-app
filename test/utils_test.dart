@@ -29,4 +29,12 @@ void main() {
     // built with the necessary environment variables
     expect(Uri.parse(const String.fromEnvironment('GS_GET_THUMBNAIL_URL')).hasAbsolutePath, true);
   });
+
+  test('Make sure we can get audio list json URL', ()
+  {
+    // DO NOT test the actual URL contents for obfuscation purposes
+    // simply test for some semblance of a URI to make sure the app is being
+    // built with the necessary environment variables
+    expect(Uri.parse(const String.fromEnvironment('GF_GET_AUDIO_LIST_JSON_URL')).hasAbsolutePath, true);
+  });
 }
