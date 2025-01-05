@@ -14,7 +14,9 @@ import 'package:http/http.dart' as http;
 class PlayScreen extends StatefulWidget {
   final String? selectedGender;
   final String? selectedStory;
-  const PlayScreen({super.key, this.selectedGender, this.selectedStory});
+  final bool isArchived;
+  final String? id;
+  const PlayScreen({super.key, this.selectedGender, this.selectedStory, required this.isArchived, this.id});
 
   @override
   State<PlayScreen> createState() => _PlayScreenState();
@@ -37,37 +39,30 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
   String audioUrl = '';
   Future<void> fetchAudioUrl() async {
     try {
-      final response = await http.post(
-        Uri.parse(const String.fromEnvironment('GF_GET_AUDIO_URL')),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'day': getDayOfWeekString(DateTime.now()),
-          'type': widget.selectedStory,
-          'gender': widget.selectedGender,
-        }),
-      );
+      final uri = Uri.parse(const String.fromEnvironment('GF_GET_AUDIO_URL'));
+      final headers = {'Content-Type': 'application/json'};
+
+      final body = widget.isArchived
+          ? {'id': widget.id, 'type': widget.selectedStory, 'gender': widget.selectedGender}
+          : {'day': getDayOfWeekString(DateTime.now()), 'type': widget.selectedStory, 'gender': widget.selectedGender};
+
+      final response = await http.post(uri, headers: headers, body: jsonEncode(body));
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        setState(() {
-          audioUrl = data['response'];
-        });
-        if (audioUrl.isNotEmpty) {
+        final newAudioUrl = data['response'];
+        if (newAudioUrl.isNotEmpty) {
+          setState(() => audioUrl = newAudioUrl);
           await _init();
         } else {
-          if (kDebugMode) {
-            print('Error: audioUrl is empty.');
-          }
+          debugPrint('Error: audioUrl is empty.');
         }
       } else {
-        if (kDebugMode) {
-          print('Failed to load audio URL. Status code: ${response.statusCode}');
-          print('Response body: ${response.body}');
-        }
+        debugPrint('Failed to load audio URL. Status code: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Exception in fetchAudioUrl: $e');
-      }
+      debugPrint('Exception in fetchAudioUrl: $e');
     }
   }
 

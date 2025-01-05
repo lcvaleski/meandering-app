@@ -40,7 +40,7 @@ class App extends StatelessWidget {
         fontFamily: 'Montserrat',
         scaffoldBackgroundColor: const Color(0xFF1B1E40),
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
       navigatorObservers: [
         if (observer != null) observer,
       ],
