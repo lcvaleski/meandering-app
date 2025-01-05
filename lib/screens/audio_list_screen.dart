@@ -61,13 +61,19 @@ class _AudioListScreenState extends State<AudioListScreen> {
 
   /// Builds the list of audio categories and items.
   Widget _buildAudioList(Map<String, List<AudioItem>> categoryData) {
+    if (!categoryData.containsKey(widget.selectedGender)) {
+      return _buildNoAudioMessage();
+    }
+
+    List<AudioItem> filteredAudios = categoryData[widget.selectedGender] ?? [];
+
     return SingleChildScrollView(
       child: Column(
-        children:
-            categoryData.entries.map((entry) => _buildCategory(entry)).toList(),
+        children: filteredAudios.map((audioItem) => _buildAudioItem(audioItem)).toList(),
       ),
     );
   }
+
 
   /// Builds a category section with a title and list of audio items.
   Widget _buildCategory(MapEntry<String, List<AudioItem>> entry) {

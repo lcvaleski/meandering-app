@@ -253,6 +253,71 @@ class _HomeScreenState extends State<HomeScreen> {
                       ]
                   ),
                 ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.withOpacity(0.3),
+                    minimumSize: Size(300, 50), // Made taller for more rectangular shape
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AudioListScreen(selectedStory: "meandering", selectedGender: _selectedGender,),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Meandering library",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.withOpacity(0.3),
+                    minimumSize: Size(300, 50), // Made taller for more rectangular shape
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AudioListScreen(selectedStory: "boring", selectedGender: _selectedGender,),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Boring library",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.withOpacity(0.3),
+                    minimumSize: Size(300, 50), // Made taller for more rectangular shape
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AudioListScreen(selectedStory: "weather", selectedGender: _selectedGender,),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Weather library",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.only(top: 15, bottom: 30),
                   child: Container(
@@ -293,39 +358,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AudioListScreen(selectedStory: "meandering", selectedGender: _selectedGender,),
-                        ),
-                    );
-                  },
-                  child: Text("Meandering list"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AudioListScreen(selectedStory: "boring", selectedGender: _selectedGender,),
-                      ),
-                    );
-                  },
-                  child: Text("Boring list"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AudioListScreen(selectedStory: "weather", selectedGender: _selectedGender,),
-                      ),
-                    );
-                  },
-                  child: Text("Weather list"),
                 ),
               ],
             ),
