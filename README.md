@@ -39,7 +39,7 @@ GS_GET_THUMBNAIL_URL=https://some-other-url (include for production builds)
 [Integration tests](https://docs.flutter.dev/cookbook/testing/integration/introduction) currently have to be run manually, and with a virtual device running. I've only ever done it from within Android Studio (again, with a virtual device running).
 
 ```
-flutter test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=https://domain/
+flutter test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=https://domain/ --dart-define=GF_GET_AUDIO_LIST_JSON_URL=https://domain/
 ```
 
 ## Running the app
