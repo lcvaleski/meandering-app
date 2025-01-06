@@ -193,11 +193,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: EdgeInsets.only(top: 15, bottom: 30),
                   child: Container(
-                    width: 300,
+                    width: 340,
                     // Remove fixed height
-                    constraints: BoxConstraints(maxWidth: 300),
+                    constraints: BoxConstraints(maxWidth: 340),
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.1),
+                      color: Color(0xFF1E1F30),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Padding(
@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'for sleep audio through AI generated text-to-speech.\n\n'
                             'If you have any feedback:\n',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.25),
+                              color: Colors.white.withOpacity(0.2),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             child: Text('support@coventrylabs.net',
                                 style: TextStyle(
-                                    color: Colors.yellow.withOpacity(0.7))),
+                                    color: Colors.yellow.withOpacity(0.4))),
                           )
                         ],
                       ),
