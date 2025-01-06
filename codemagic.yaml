@@ -20,7 +20,8 @@ workflows:
         script: |
           flutter build appbundle --release \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
-            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL
+            --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL \
+            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
       - name: Build APK with Flutter
         script: |
           flutter build apk --release \
