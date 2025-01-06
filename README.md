@@ -28,6 +28,7 @@ This is the Meandering Sleep Flutter app. You can download it from the [Apple Ap
 ```
 GF_GET_AUDIO_URL=https://some-url (all tests/builds)
 GS_GET_THUMBNAIL_URL=https://some-other-url (include for production builds)
+GF_GET_AUDIO_LIST_JSON=https://another-url (include for production builds)
 ```
 
 ## Running unit tests
