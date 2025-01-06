@@ -1,0 +1,52 @@
+diff --git a/lib/screens/home_screen.dart b/lib/screens/home_screen.dart
+index c310f62..b9cedc9 100644
+--- a/lib/screens/home_screen.dart
++++ b/lib/screens/home_screen.dart
+@@ -5,6 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
+ import 'package:sleepless_app/screens/audio_list_screen.dart';
+ import 'package:sleepless_app/screens/play_screen.dart';
+ import 'package:url_launcher/url_launcher.dart';
++import 'package:just_audio/just_audio.dart';
++import 'package:audio_session/audio_session.dart';
++import 'package:just_audio_background/just_audio_background.dart';
+ 
+ class HomeScreen extends StatefulWidget {
+   const HomeScreen({super.key});
+@@ -29,6 +32,24 @@ Future<void> _launchEmail() async {
+   }
+ }
+ 
++Future<void> _pumpAudioPlayer() async {
++  final AudioPlayer player = AudioPlayer();
++  final session = await AudioSession.instance;
++  await session.configure(const AudioSessionConfiguration.speech());
++  final source = AudioSource.uri(Uri.parse('https://storage.cloud.google.com/active-audio/archive/04D7171E_weather_female.wav'),
++      tag: MediaItem(
++    // Specify a unique ID for each media item:
++    id: '1',
++    // Metadata to display in the notification:
++    album: 'Sleepless',
++    title: 'test',
++    artUri: Uri.parse('https://test.com'),
++  ));
++  await player.setAudioSource(source,
++      initialPosition: Duration.zero, preload: true);
++  player.dispose();
++}
++
+ class _HomeScreenState extends State<HomeScreen> {
+   String? _selectedGender = 'male';
+   String? _selectedStory = 'meandering';
+@@ -36,9 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
+   final TextStyle _genderStyle =
+       const TextStyle(color: Colors.white, fontSize: 16);
+ 
++
++
+   @override
+   void initState() {
+     super.initState();
++    _pumpAudioPlayer();
+   }
+ 
+   @override
