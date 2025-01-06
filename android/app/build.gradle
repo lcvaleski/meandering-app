@@ -39,7 +39,7 @@ android {
         multiDexEnabled true
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 28
+        versionCode 29
         versionName "0.1.5"
         ndk {
             debugSymbolLevel 'FULL'
