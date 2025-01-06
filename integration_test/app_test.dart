@@ -38,7 +38,7 @@ void main() async {
           // Load app widget.
           await tester.pumpWidget(const App());
 
-          final meanderButton = find.byKey(const Key('meandering'));
+          final meanderButton = find.byKey(const Key('meandering_card'));
           expect(meanderButton, findsOneWidget);
 
           // bring up the play screen

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sleepless_app/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,9 +18,9 @@ void main() async {
   testWidgets('App has meandering/boring/weather library buttons', (tester) async {
     await tester.pumpWidget(const App());
 
-    final meanderingFinder = find.text('Meandering library');
-    final boringFinder = find.text('Boring library');
-    final weatherFinder = find.text('Weather library');
+    final meanderingFinder = find.byKey(Key('meandering_library'));
+    final boringFinder = find.byKey(Key('boring_library'));
+    final weatherFinder = find.byKey(Key('weather_library'));
 
     expect(meanderingFinder, findsOneWidget);
     expect(boringFinder, findsOneWidget);

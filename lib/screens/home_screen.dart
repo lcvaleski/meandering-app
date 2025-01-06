@@ -2,8 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sleepless_app/screens/audio_list_screen.dart';
-import 'package:sleepless_app/screens/play_screen.dart';
+import 'package:sleepless_app/widgets/library_button.dart';
+import 'package:sleepless_app/widgets/story_card.dart';
+import 'package:sleepless_app/widgets/story_card_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,10 +32,11 @@ Future<void> _launchEmail() async {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? _selectedGender = 'male';
-  String? _selectedStory = 'meandering';
 
   final TextStyle _genderStyle =
       const TextStyle(color: Colors.white, fontSize: 16);
+
+
 
   @override
   void initState() {
@@ -117,229 +119,75 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   padding: const EdgeInsets.only(top: 15, bottom: 15),
-                  child: Stack(alignment: Alignment.center, children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(35),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 0,
-                            blurRadius: 3,
-                            offset: const Offset(
-                                0, 0), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child:
-                          SvgPicture.asset('assets/images/buttoncontainer.svg'),
-                    ),
-                    Column(children: [
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                spreadRadius: 0,
-                                blurRadius: 3,
-                                offset: const Offset(
-                                    0, 6), // changes position of shadow
+                  child: Stack(
+                    children: [
+                      StoryCardContainer(),
+                      Positioned.fill(
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StoryCard(
+                                    key: const Key('meandering_card'),
+                                    title: "Meandering",
+                                    subtitle: "Story",
+                                    selectedStory: "meandering",
+                                    selectedGender: _selectedGender,
+                                  ),
+                                  SizedBox(width: 10),
+                                  LibraryButton(
+                                      key: const Key('meandering_library'),
+                                      selectedStory: "meandering",
+                                    selectedGender: _selectedGender
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StoryCard(
+                                    key: const Key('boring_card'),
+                                    title: "Boring",
+                                    subtitle: "Lecture",
+                                    selectedStory: "boring",
+                                    selectedGender: _selectedGender,
+                                  ),
+                                  SizedBox(width: 10),
+                                  LibraryButton(
+                                      key: const Key('boring_library'),
+                                      selectedStory: "boring",
+                                      selectedGender: _selectedGender
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StoryCard(
+                                    key: const Key('weather_card'),
+                                    title: "Weather",
+                                    subtitle: "Forecast",
+                                    selectedStory: "weather",
+                                    selectedGender: _selectedGender,
+                                  ),
+                                  SizedBox(width: 10),
+                                  LibraryButton(
+                                      key: const Key('weather_library'),
+                                      selectedStory: "weather",
+                                      selectedGender: _selectedGender
+                                  )
+                                ],
                               ),
                             ],
                           ),
-                          child: MaterialButton(
-                            padding: const EdgeInsets.all(0.0),
-                            key: const Key('meandering'),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            child: SvgPicture.asset(
-                              'assets/images/meanderingbutton.svg',
-                            ),
-                            onPressed: () {
-                              _selectedStory = 'meandering';
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PlayScreen(
-                                          selectedGender: _selectedGender,
-                                          selectedStory: _selectedStory,
-                                          isArchived: false,
-                                        ),
-                                    settings: RouteSettings(
-                                      name:
-                                          '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
-                                    )),
-                              );
-                            },
-                          ),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                spreadRadius: 0,
-                                blurRadius: 3,
-                                offset: const Offset(
-                                    0, 6), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: MaterialButton(
-                            padding: const EdgeInsets.all(0.0),
-                            key: const Key('boring'),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            child: SvgPicture.asset(
-                              'assets/images/boringbutton.svg',
-                            ),
-                            onPressed: () {
-                              _selectedStory = 'boring';
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PlayScreen(
-                                          selectedGender: _selectedGender,
-                                          selectedStory: _selectedStory,
-                                          isArchived: false,
-                                        ),
-                                    settings: RouteSettings(
-                                      name:
-                                          '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
-                                    )),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // padding: EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 0,
-                              blurRadius: 3,
-                              offset: const Offset(
-                                  0, 6), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: MaterialButton(
-                          padding: const EdgeInsets.all(0.0),
-                          key: const Key('port'),
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          child: SvgPicture.asset(
-                            'assets/images/portbutton.svg',
-                          ),
-                          onPressed: () {
-                            _selectedStory = 'weather';
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PlayScreen(
-                                        selectedGender: _selectedGender,
-                                        selectedStory: _selectedStory,
-                                        isArchived: false,
-                                      ),
-                                  settings: RouteSettings(
-                                    name:
-                                        '${_selectedStory}_${_selectedGender}', // This is the screen name used by Firebase
-                                  )),
-                            );
-                          },
-                        ),
-                      ),
-                    ]),
-                  ]),
-                ),
-                ElevatedButton(
-                  key: const Key('meandering_library'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.2),
-                    minimumSize: Size(300, 50),
-                    // Made taller for more rectangular shape
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AudioListScreen(
-                          selectedStory: 'meandering',
-                          selectedGender: _selectedGender,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Meandering library',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  key: const Key('boring_library'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.2),
-                    minimumSize: Size(300, 50),
-                    // Made taller for more rectangular shape
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AudioListScreen(
-                          selectedStory: 'boring',
-                          selectedGender: _selectedGender,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Boring library',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  key: const Key('weather_library'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.withOpacity(0.2),
-                    minimumSize: Size(300, 50),
-                    // Made taller for more rectangular shape
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AudioListScreen(
-                          selectedStory: 'weather',
-                          selectedGender: _selectedGender,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Weather library',
-                    style: TextStyle(color: Colors.white),
+                    ],
                   ),
                 ),
                 Padding(

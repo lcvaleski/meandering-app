@@ -134,6 +134,8 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final thumbnailUri = const String.fromEnvironment('GS_GET_THUMBNAIL_URL');
+    final finalThumbnailUri = thumbnailUri + '${widget.selectedStory}_thumbnail.png';
     return Scaffold(
         extendBodyBehindAppBar: true, // This extends the body to be behind the AppBar
         appBar: AppBar(
@@ -152,7 +154,7 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
             children: [
               Container (
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Image.asset('assets/images/${widget.selectedStory}_thumbnail.png'),
+                child: Image.network(finalThumbnailUri),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
