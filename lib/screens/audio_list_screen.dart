@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sleepless_app/screens/play_screen.dart';
 import '../models/audio_item.dart';
 import '../services/audio_fetch.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
+import '../revenuecat_constants.dart';
 
 class AudioListScreen extends StatefulWidget {
   final String? selectedGender;
@@ -16,11 +19,47 @@ class AudioListScreen extends StatefulWidget {
 
 class _AudioListScreenState extends State<AudioListScreen> {
   late Future<Map<String, Map<String, List<AudioItem>>>> futureAudioList;
+  bool _isSubscribed = false;
 
   @override
   void initState() {
     super.initState();
-    futureAudioList = fetchAudioList(); // Fetch the full list
+    futureAudioList = fetchAudioList();
+    _checkSubscriptionStatus();
+  }
+
+  Future<void> _checkSubscriptionStatus() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      setState(() {
+        _isSubscribed = customerInfo.entitlements.active[entitlementID]?.isActive ?? false;
+      });
+      
+      if (!_isSubscribed) {
+        // Show paywall after a short delay to ensure screen is fully loaded
+        Future.delayed(const Duration(milliseconds: 500), () {
+          _showPaywall();
+        });
+      }
+    } catch (e) {
+      debugPrint('Error checking subscription status: $e');
+    }
+  }
+
+  Future<void> _showPaywall() async {
+    try {
+      Offerings? offerings = await Purchases.getOfferings();
+      
+      if (offerings.current != null) {
+        await RevenueCatUI.presentPaywall();
+        // Check subscription status again after paywall is closed
+        await _checkSubscriptionStatus();
+      } else {
+        debugPrint('No offerings available');
+      }
+    } catch (e) {
+      debugPrint('Error presenting paywall: $e');
+    }
   }
 
   @override
