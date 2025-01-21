@@ -62,6 +62,10 @@ workflows:
       - name: Run unit tests
         script: |
           flutter test --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
+      - name: Run integration tests
+        script: |
+          flutter emulators --launch apple_ios_simulator
+          flutter -d iPhone test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
       - name: Set up code signing settings
         script: |
           xcode-project use-profiles
