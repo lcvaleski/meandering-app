@@ -52,7 +52,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.yellow,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(16),
         ),
@@ -64,8 +64,9 @@ class _AudioListScreenState extends State<AudioListScreen> {
             Navigator.of(context).pop();
             _showPaywall();
           },
+          behavior: HitTestBehavior.opaque,
           child: Container(
-            height: 75,
+            height: 125,
             alignment: Alignment.center,
             child: const Text(
               'Subscribe to access',
