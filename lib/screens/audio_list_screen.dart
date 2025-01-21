@@ -34,24 +34,51 @@ class _AudioListScreenState extends State<AudioListScreen> {
       setState(() {
         _isSubscribed = customerInfo.entitlements.active[entitlementID]?.isActive ?? false;
       });
-      
-      if (!_isSubscribed) {
-        // Show paywall after a short delay to ensure screen is fully loaded
-        Future.delayed(const Duration(milliseconds: 500), () {
-          _showPaywall();
-        });
-      }
     } catch (e) {
       debugPrint('Error checking subscription status: $e');
     }
   }
 
+  void subscriptionModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.yellow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+            _showPaywall();
+          },
+          child: Container(
+            height: 75,
+            alignment: Alignment.center,
+            child: const Text(
+              'Subscribe to access',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
   Future<void> _showPaywall() async {
     try {
       Offerings? offerings = await Purchases.getOfferings();
-      
+
       if (offerings.current != null) {
-        await RevenueCatUI.presentPaywall();
+        await RevenueCatUI.presentPaywallIfNeeded('premium');
         // Check subscription status again after paywall is closed
         await _checkSubscriptionStatus();
       } else {
@@ -161,7 +188,9 @@ class _AudioListScreenState extends State<AudioListScreen> {
       ),
       trailing: IconButton(
         icon: const Icon(Icons.play_arrow, color: Colors.yellow),
-        onPressed: () => _navigateToPlayScreen(item.id),
+        onPressed: _isSubscribed
+          ? () => _navigateToPlayScreen(item.id)
+          : () => subscriptionModal(context),
       ),
     );
   }
