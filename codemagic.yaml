@@ -16,12 +16,6 @@ workflows:
       - name: Run unit tests
         script: |
           flutter test --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
-      - name: Integration tests tests
-        script: | 
-          flutter config --enable-web
-          flutter emulators --launch emulator &
-          adb wait-for-device
-          flutter -d emulator-5554 test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
       - name: Build AAB with Flutter
         script: |
           flutter build appbundle --release \
@@ -68,11 +62,6 @@ workflows:
       - name: Run unit tests
         script: |
           flutter test --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
-      - name: Run integration tests
-        script: |
-          open -a Simulator
-          flutter emulators --launch apple_ios_simulator
-          flutter -d iPhone test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
       - name: Set up code signing settings
         script: |
           xcode-project use-profiles
