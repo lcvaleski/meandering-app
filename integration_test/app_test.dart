@@ -84,7 +84,7 @@ void main() async {
           speedDialog = find.byKey(const Key('speed'));
           expect(speedDialog, findsNothing);
     });
-     testWidgets('tap on a library button, verify screen loads',
+    testWidgets('tap on a library button, verify screen loads',
              (tester) async {
                    await tester.pumpWidget(const App());
 
@@ -97,5 +97,28 @@ void main() async {
                    final appBar = find.byKey(const Key('audioListScreenAppBar'));
                    expect(appBar, findsOneWidget);
          });
+    testWidgets('tap on a library button then play button, Subscribe to access modal should pop up',
+            (tester) async {
+          await tester.pumpWidget(const App());
+
+          final meanderButton = find.byKey(const Key('meandering_library'));
+          expect(meanderButton, findsOneWidget);
+
+          await tester.tap(meanderButton);
+          await tester.pumpAndSettle();
+
+          final appBar = find.byKey(const Key('audioListScreenAppBar'));
+          expect(appBar, findsOneWidget);
+
+          final playButton = find.byKey(const Key('playButton'));
+
+          // NOTE this is a little hacky, because there are multiple playButtons
+          // tester taps the first one, 0 index.
+          await tester.tap(find.byKey(const ValueKey('playButton')).at(0));
+          await tester.pumpAndSettle();
+
+          final subscriptionModal = find.byKey(const Key('subscriptionModal'));
+          expect(subscriptionModal, findsOneWidget);
+        });
   });
 }

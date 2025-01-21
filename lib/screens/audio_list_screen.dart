@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:sleepless_app/screens/play_screen.dart';
 import '../models/audio_item.dart';
 import '../services/audio_fetch.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import '../revenuecat_constants.dart';
 
 class AudioListScreen extends StatefulWidget {
@@ -21,13 +21,6 @@ class _AudioListScreenState extends State<AudioListScreen> {
   late Future<Map<String, Map<String, List<AudioItem>>>> futureAudioList;
   bool _isSubscribed = false;
 
-  @override
-  void initState() {
-    super.initState();
-    futureAudioList = fetchAudioList();
-    _checkSubscriptionStatus();
-  }
-
   Future<void> _checkSubscriptionStatus() async {
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
@@ -36,6 +29,22 @@ class _AudioListScreenState extends State<AudioListScreen> {
       });
     } catch (e) {
       debugPrint('Error checking subscription status: $e');
+    }
+  }
+
+  Future<void> _showPaywall() async {
+    try {
+      Offerings? offerings = await Purchases.getOfferings();
+
+      if (offerings.current != null) {
+        await RevenueCatUI.presentPaywallIfNeeded('premium');
+        // Check subscription status again after paywall is closed
+        await _checkSubscriptionStatus();
+      } else {
+        debugPrint('No offerings available');
+      }
+    } catch (e) {
+      debugPrint('Error presenting paywall: $e');
     }
   }
 
@@ -50,6 +59,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
       ),
       builder: (BuildContext context) {
         return GestureDetector(
+          key: const Key('subscriptionModal'),
           onTap: () {
             Navigator.of(context).pop();
             _showPaywall();
@@ -71,22 +81,11 @@ class _AudioListScreenState extends State<AudioListScreen> {
     );
   }
 
-
-
-  Future<void> _showPaywall() async {
-    try {
-      Offerings? offerings = await Purchases.getOfferings();
-
-      if (offerings.current != null) {
-        await RevenueCatUI.presentPaywallIfNeeded('premium');
-        // Check subscription status again after paywall is closed
-        await _checkSubscriptionStatus();
-      } else {
-        debugPrint('No offerings available');
-      }
-    } catch (e) {
-      debugPrint('Error presenting paywall: $e');
-    }
+  @override
+  void initState() {
+    super.initState();
+    futureAudioList = fetchAudioList();
+    _checkSubscriptionStatus();
   }
 
   @override
@@ -187,6 +186,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
         style: TextStyle(color: Colors.white),
       ),
       trailing: IconButton(
+        key: const Key('playButton'),
         icon: const Icon(Icons.play_arrow, color: Colors.yellow),
         onPressed: _isSubscribed
           ? () => _navigateToPlayScreen(item.id)

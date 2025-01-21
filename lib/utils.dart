@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:sleepless_app/revenuecat_store_config.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'dart:io';
@@ -25,11 +27,7 @@ Future<void> configurePurchasesSDK() async {
       apiKey: googleApiKey,
     );
   }
-  /*
-    - appUserID is nil, so an anonymous ID will be generated automatically by the Purchases SDK. Read more about Identifying Users here: https://docs.revenuecat.com/docs/user-ids
 
-    - PurchasesAreCompletedyBy is PurchasesAreCompletedByRevenueCat, so Purchases will automatically handle finishing transactions. Read more about completing purchases here: https://www.revenuecat.com/docs/migrating-to-revenuecat/sdk-or-not/finishing-transactions
-    */
   PurchasesConfiguration configuration;
   if (StoreConfig.isForAmazonAppstore()) {
     configuration = AmazonConfiguration(StoreConfig.instance.apiKey)
