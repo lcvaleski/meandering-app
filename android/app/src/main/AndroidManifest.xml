@@ -16,7 +16,7 @@
     <application android:label="Meandering" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
         <activity
             android:enableOnBackInvokedCallback="true"
-            android:name="com.ryanheise.audioservice.AudioServiceFragmentActivity"
+            android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
