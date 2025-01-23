@@ -21,13 +21,17 @@ workflows:
           flutter build appbundle --release \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
             --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL \
-            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
+            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL \
+            --dart-define=REVCAT_APPLE_API_KEY=$REVCAT_APPLE_API_KEY \
+            --dart-define=REVCAT_GOOGLE_API_KEY=$REVCAT_GOOGLE_API_KEY
       - name: Build APK with Flutter
         script: |
           flutter build apk --release \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
             --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL \
-            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
+            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL \
+            --dart-define=REVCAT_APPLE_API_KEY=$REVCAT_APPLE_API_KEY \
+            --dart-define=REVCAT_GOOGLE_API_KEY=$REVCAT_GOOGLE_API_KEY
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
       - build/app/outputs/bundle/release/app-release.aab
@@ -73,7 +77,9 @@ workflows:
             --export-options-plist=/Users/builder/export_options.plist \
             --dart-define=GF_GET_AUDIO_URL=$GF_GET_AUDIO_URL \
             --dart-define=GS_GET_THUMBNAIL_URL=$GS_GET_THUMBNAIL_URL \
-            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL
+            --dart-define=GF_GET_AUDIO_LIST_JSON_URL=$GF_GET_AUDIO_LIST_JSON_URL \
+            --dart-define=REVCAT_APPLE_API_KEY=$REVCAT_APPLE_API_KEY \
+            --dart-define=REVCAT_GOOGLE_API_KEY=$REVCAT_GOOGLE_API_KEY
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
