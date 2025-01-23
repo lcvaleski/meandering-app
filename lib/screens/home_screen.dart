@@ -30,6 +30,33 @@ Future<void> _launchEmail() async {
   }
 }
 
+Future<void> _launchEula() async {
+  final Uri eulaLaunchUri = Uri.parse('https://coventrylabs.net/eula');
+  try {
+    if (!await launchUrl(eulaLaunchUri)) {
+      throw 'Could not launch eula uri';
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error launching eula: $e');
+    }
+  }
+}
+
+Future<void> _launchPrivacy() async {
+  final Uri eulaLaunchUri = Uri.parse('https://coventrylabs.net/privacy');
+  try {
+    if (!await launchUrl(eulaLaunchUri)) {
+      throw 'Could not launch privacy uri';
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print('Error launching privacy: $e');
+    }
+  }
+}
+
+
 class _HomeScreenState extends State<HomeScreen> {
   String? _selectedGender = 'male';
 
@@ -223,6 +250,29 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text('support@coventrylabs.net',
                                 style: TextStyle(
                                     color: Colors.yellow.withOpacity(0.4))),
+                          ),
+                          SizedBox(
+                            height: 25
+                          ),
+                          ElevatedButton(
+                            key: const Key('eula_button'),
+                            onPressed: _launchEula,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey.withOpacity(0.2),
+                            ),
+                            child: Text('EULA',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.2))),
+                          ),
+                          ElevatedButton(
+                            key: const Key('privacy_button'),
+                            onPressed: _launchPrivacy,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey.withOpacity(0.2),
+                            ),
+                            child: Text('Privacy',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.2))),
                           )
                         ],
                       ),

@@ -34,4 +34,20 @@ void main() async {
 
     expect(meanderingFinder, findsOneWidget);
   });
+
+  testWidgets('App has EULA button', (tester) async {
+    await tester.pumpWidget(const App());
+
+    final eulaFinder = find.text('EULA');
+
+    expect(eulaFinder, findsOneWidget);
+  });
+
+  testWidgets('App has Privacy Policy button', (tester) async {
+    await tester.pumpWidget(const App());
+
+    final privacyFinder = find.text('Privacy');
+
+    expect(privacyFinder, findsOneWidget);
+  });
 }
