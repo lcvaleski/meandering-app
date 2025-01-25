@@ -208,6 +208,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
           isArchived: true,
           id: id,
         ),
+        settings: RouteSettings(name: 'audio_list_screen/play_screen/${widget.selectedStory}_${widget.selectedGender}'), // Firebase tracking
       ),
     );
   }

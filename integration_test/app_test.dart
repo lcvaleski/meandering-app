@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:sleepless_app/main.dart';
 import 'package:firebase_core/firebase_core.dart';
-import '../lib/utils.dart';
+import 'package:sleepless_app/utils.dart';
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -84,20 +84,34 @@ void main() async {
           speedDialog = find.byKey(const Key('speed'));
           expect(speedDialog, findsNothing);
     });
-    testWidgets('tap on a library button, verify screen loads',
-             (tester) async {
-                   await tester.pumpWidget(const App());
 
-                   final meanderButton = find.byKey(const Key('meandering_library'));
-                   expect(meanderButton, findsOneWidget);
+    final scenarios = [
+      {'storyType': 'meandering'},
+      {'storyType': 'boring'},
+      {'storyType': 'weather'},
+    ];
 
-                   await tester.tap(meanderButton);
-                   await tester.pumpAndSettle();
+    for (var scenario in scenarios) {
+      testWidgets(
+          'verify ${scenario['storyType']} library button loads list screen',
+              (WidgetTester tester) async {
+                await tester.pumpWidget(const App());
 
-                   final appBar = find.byKey(const Key('audioListScreenAppBar'));
-                   expect(appBar, findsOneWidget);
-         });
-    testWidgets('tap on a library button then play button, Subscribe to access modal should pop up',
+                final button = find.byKey(Key('${scenario['storyType']}_library'));
+                expect(button, findsOneWidget);
+
+                await tester.tap(button);
+                await tester.pumpAndSettle();
+
+                final appBar = find.byKey(const Key('audioListScreenAppBar'));
+                expect(appBar, findsOneWidget);
+
+                //final routeName = ModalRoute.of(tester.element(find.byType(AudioListScreen)))?.settings.name;
+                //expect(routeName, 'audio_library_list/${scenario['storyType']}_male');
+      });
+    }
+
+    testWidgets('tap on a library button then the first play button, Subscribe to access modal should pop up',
             (tester) async {
           await tester.pumpWidget(const App());
 
@@ -110,10 +124,6 @@ void main() async {
           final appBar = find.byKey(const Key('audioListScreenAppBar'));
           expect(appBar, findsOneWidget);
 
-          final playButton = find.byKey(const Key('playButton'));
-
-          // NOTE this is a little hacky, because there are multiple playButtons
-          // tester taps the first one, 0 index.
           await tester.tap(find.byKey(const ValueKey('playButton')).at(0));
           await tester.pumpAndSettle();
 

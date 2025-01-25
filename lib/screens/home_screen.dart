@@ -58,7 +58,7 @@ Future<void> _launchPrivacy() async {
 
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? _selectedGender = 'male';
+  String _selectedGender = 'male';
 
   final TextStyle _genderStyle =
       const TextStyle(color: Colors.white, fontSize: 16);
@@ -137,7 +137,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       onValueChanged: (value) {
                         setState(() {
-                          _selectedGender = value;
+                          _selectedGender = 'male';
+                          if (value == null || value == 'female') {
+                            _selectedGender = 'female';
+                          }
                         });
                       },
                       groupValue: _selectedGender,
@@ -168,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   LibraryButton(
                                       key: const Key('meandering_library'),
                                       selectedStory: "meandering",
-                                    selectedGender: _selectedGender
+                                      selectedGender: _selectedGender
                                   )
                                 ],
                               ),

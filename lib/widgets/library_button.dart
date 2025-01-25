@@ -3,7 +3,7 @@ import 'package:sleepless_app/screens/audio_list_screen.dart';
 
 class LibraryButton extends StatelessWidget {
   final String selectedStory;
-  final String? selectedGender;
+  final String selectedGender;
 
   const LibraryButton({Key? key, required this.selectedStory, required this.selectedGender}) : super(key: key);
 
@@ -49,6 +49,9 @@ class LibraryButton extends StatelessWidget {
           selectedStory: selectedStory,
           selectedGender: selectedGender,
         ),
+        settings: RouteSettings(
+            name: 'audio_library_list/${selectedStory}_${selectedGender}' // Firebase tracking
+        )
       ),
     );
   }

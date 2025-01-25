@@ -28,8 +28,8 @@ class StoryCard extends StatelessWidget {
               isArchived: false,
             ),
             settings: RouteSettings(
-              name: '${selectedStory}_${selectedGender}', // Firebase tracking
-            ),
+              name: 'story_card/play_screen/${selectedStory}_${selectedGender}' // Firebase tracking
+            )
           ),
         );
       },
