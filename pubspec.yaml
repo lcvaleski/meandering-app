@@ -18,7 +18,7 @@ dependencies:
 
   shared_preferences: any
   http: ^1.2.1
-  intl: ^0.19.0
+  intl: ^0.20.2
   flutter_svg: ^2.0.14
   animated_segmented_tab_control: ^2.0.0
   just_audio: ^0.9.37
