@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleepless_app/revenuecat_store_config.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:sleepless_app/services/logger_service.dart';
 import 'dart:io';
 import 'revenuecat_constants.dart';
+import 'package:logger/logger.dart';
 
 String getDayOfWeekString(DateTime now) {
   final int dayOfWeek = now.weekday;
@@ -12,31 +14,23 @@ String getDayOfWeekString(DateTime now) {
 }
 
 Future<void> configurePurchasesSDK() async {
-  // Enable debug logs before calling `configure`.
-  await Purchases.setLogLevel(LogLevel.debug);
-  if (Platform.isIOS || Platform.isMacOS) {
-    StoreConfig(
-      store: Store.appStore,
-      apiKey: appleApiKey,
-    );
-  } else if (Platform.isAndroid) {
-    // Run the app passing --dart-define=AMAZON=true
-    const useAmazon = bool.fromEnvironment("amazon");
-    StoreConfig(
-      store: useAmazon ? Store.amazon : Store.playStore,
-      apiKey: googleApiKey,
-    );
+  try {
+    logger.i('Configuring RevenueCat SDK');
+    await Purchases.setLogLevel(LogLevel.debug);
+    
+    if (Platform.isIOS || Platform.isMacOS) {
+      logger.d('Configuring for Apple Store');
+      final config = PurchasesConfiguration(appleApiKey);
+      await Purchases.configure(config);
+    } else if (Platform.isAndroid) {
+      const useAmazon = bool.fromEnvironment("amazon");
+      logger.d('Configuring for ${useAmazon ? "Amazon" : "Play"} Store');
+      final config = PurchasesConfiguration(googleApiKey);
+      await Purchases.configure(config);
+    }
+    logger.i('RevenueCat SDK configured successfully');
+  } catch (e, stack) {
+    logger.e('Failed to configure RevenueCat SDK', error: e, stackTrace: stack);
+    rethrow;
   }
-
-  PurchasesConfiguration configuration;
-  if (StoreConfig.isForAmazonAppstore()) {
-    configuration = AmazonConfiguration(StoreConfig.instance.apiKey)
-      ..appUserID = null
-      ..purchasesAreCompletedBy = const PurchasesAreCompletedByRevenueCat();
-  } else {
-    configuration = PurchasesConfiguration(StoreConfig.instance.apiKey)
-      ..appUserID = null
-      ..purchasesAreCompletedBy = const PurchasesAreCompletedByRevenueCat();
-  }
-  await Purchases.configure(configuration);
 }

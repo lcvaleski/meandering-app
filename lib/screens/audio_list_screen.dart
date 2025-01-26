@@ -5,6 +5,7 @@ import '../models/audio_item.dart';
 import '../services/audio_fetch.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import '../revenuecat_constants.dart';
+import '../services/logger_service.dart';
 
 class AudioListScreen extends StatefulWidget {
   final String? selectedGender;
@@ -34,17 +35,19 @@ class _AudioListScreenState extends State<AudioListScreen> {
 
   Future<void> _showPaywall() async {
     try {
+      logger.i('Fetching RevenueCat offerings');
       Offerings? offerings = await Purchases.getOfferings();
 
       if (offerings.current != null) {
+        logger.i('Presenting paywall for premium entitlement');
         await RevenueCatUI.presentPaywallIfNeeded('premium');
-        // Check subscription status again after paywall is closed
+        logger.i('Paywall presented successfully');
         await _checkSubscriptionStatus();
       } else {
-        debugPrint('No offerings available');
+        logger.w('No offerings available');
       }
-    } catch (e) {
-      debugPrint('Error presenting paywall: $e');
+    } catch (e, stack) {
+      logger.e('Error presenting paywall', error: e, stackTrace: stack);
     }
   }
 
