@@ -63,18 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextStyle _genderStyle =
       const TextStyle(color: Colors.white, fontSize: 16);
 
-
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

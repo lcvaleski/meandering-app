@@ -4,6 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:sleepless_app/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sleepless_app/utils.dart';
+import 'package:sleepless_app/screens/audio_list_screen.dart';
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -93,7 +94,7 @@ void main() async {
 
     for (var scenario in scenarios) {
       testWidgets(
-          'verify ${scenario['storyType']} library button loads list screen',
+          'verify ${scenario['storyType']} library button tap behaviors',
               (WidgetTester tester) async {
                 await tester.pumpWidget(const App());
 
@@ -106,8 +107,9 @@ void main() async {
                 final appBar = find.byKey(const Key('audioListScreenAppBar'));
                 expect(appBar, findsOneWidget);
 
-                //final routeName = ModalRoute.of(tester.element(find.byType(AudioListScreen)))?.settings.name;
-                //expect(routeName, 'audio_library_list/${scenario['storyType']}_male');
+                // make sure routes are named as expected for Firebase analytics
+                final routeName = ModalRoute.of(tester.element(find.byType(AudioListScreen)))?.settings.name;
+                expect(routeName, 'audio_library_list/${scenario['storyType']}_male');
       });
     }
 

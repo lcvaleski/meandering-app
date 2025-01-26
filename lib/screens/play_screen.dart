@@ -141,9 +141,8 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
         appBar: AppBar(
           key: const Key('playScreenAppBar'),
           backgroundColor: Colors.transparent, // Set background color to transparent
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white), // Set the back arrow icon
-            onPressed: () => Navigator.of(context).pop(), // Defines the action on press
+          iconTheme: IconThemeData(
+              color: Colors.yellow,
           ),
         ),
         body: Padding (
