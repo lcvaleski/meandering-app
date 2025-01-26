@@ -23,7 +23,7 @@ class App extends StatelessWidget {
     if (!isTestEnv) {
       final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
       observer = FirebaseAnalyticsObserver(analytics: analytics);
-    };
+    }
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

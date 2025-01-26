@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:sleepless_app/revenuecat_store_config.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:sleepless_app/services/logger_service.dart';
 import 'dart:io';
 import 'revenuecat_constants.dart';
-import 'package:logger/logger.dart';
 
 String getDayOfWeekString(DateTime now) {
   final int dayOfWeek = now.weekday;
@@ -23,7 +19,7 @@ Future<void> configurePurchasesSDK() async {
       final config = PurchasesConfiguration(appleApiKey);
       await Purchases.configure(config);
     } else if (Platform.isAndroid) {
-      const useAmazon = bool.fromEnvironment("amazon");
+      const useAmazon = bool.fromEnvironment('amazon');
       logger.d('Configuring for ${useAmazon ? "Amazon" : "Play"} Store');
       final config = PurchasesConfiguration(googleApiKey);
       await Purchases.configure(config);

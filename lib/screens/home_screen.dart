@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 51), // 51 is 20% opacity of 255
                         spreadRadius: 0,
                         blurRadius: 3,
                         offset:
@@ -150,15 +150,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   StoryCard(
                                     key: const Key('meandering_card'),
-                                    title: "Meandering",
-                                    subtitle: "Story",
-                                    selectedStory: "meandering",
+                                    title: 'Meandering',
+                                    subtitle: 'Story',
+                                    selectedStory: 'meandering',
                                     selectedGender: _selectedGender,
                                   ),
                                   SizedBox(width: 10),
                                   LibraryButton(
                                       key: const Key('meandering_library'),
-                                      selectedStory: "meandering",
+                                      selectedStory: 'meandering',
                                       selectedGender: _selectedGender
                                   )
                                 ],
@@ -169,15 +169,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   StoryCard(
                                     key: const Key('boring_card'),
-                                    title: "Boring",
-                                    subtitle: "Lecture",
-                                    selectedStory: "boring",
+                                    title: 'Boring',
+                                    subtitle: 'Lecture',
+                                    selectedStory: 'boring',
                                     selectedGender: _selectedGender,
                                   ),
                                   SizedBox(width: 10),
                                   LibraryButton(
                                       key: const Key('boring_library'),
-                                      selectedStory: "boring",
+                                      selectedStory: 'boring',
                                       selectedGender: _selectedGender
                                   )
                                 ],
@@ -188,15 +188,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   StoryCard(
                                     key: const Key('weather_card'),
-                                    title: "Weather",
-                                    subtitle: "Forecast",
-                                    selectedStory: "weather",
+                                    title: 'Weather',
+                                    subtitle: 'Forecast',
+                                    selectedStory: 'weather',
                                     selectedGender: _selectedGender,
                                   ),
                                   SizedBox(width: 10),
                                   LibraryButton(
                                       key: const Key('weather_library'),
-                                      selectedStory: "weather",
+                                      selectedStory: 'weather',
                                       selectedGender: _selectedGender
                                   )
                                 ],
@@ -228,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'for sleep audio through AI generated text-to-speech.\n\n'
                             'If you have any feedback:\n',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 51), // 51 is 20% opacity of 255
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -236,11 +236,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             key: const Key('feedback_button'),
                             onPressed: _launchEmail,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              backgroundColor: Colors.grey..withValues(alpha: 51), // 51 is 20% opacity of 255
                             ),
                             child: Text('support@coventrylabs.net',
                                 style: TextStyle(
-                                    color: Colors.yellow.withOpacity(0.4))),
+                                    color: Colors.yellow.withValues(alpha: 52))),
                           ),
                           SizedBox(
                             height: 25
@@ -249,21 +249,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             key: const Key('eula_button'),
                             onPressed: _launchEula,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              backgroundColor: Colors.grey.withValues(alpha: 51), // 51 is 20% opacity of 255
                             ),
                             child: Text('EULA',
                                 style: TextStyle(
-                                    color: Colors.white.withOpacity(0.2))),
+                                    color: Colors.white.withValues(alpha: 51), // 51 is 20% opacity of 255
+                                )),
                           ),
                           ElevatedButton(
                             key: const Key('privacy_button'),
                             onPressed: _launchPrivacy,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              backgroundColor: Colors.grey.withValues(alpha: 51), // 51 is 20% opacity of 255
                             ),
                             child: Text('Privacy',
                                 style: TextStyle(
-                                    color: Colors.white.withOpacity(0.2))),
+                                    color: Colors.white.withValues(alpha: 51), // 51 is 20% opacity of 255
+                                )),
                           )
                         ],
                       ),

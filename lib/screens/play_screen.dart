@@ -49,8 +49,8 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
       final response = await http.post(uri, headers: headers, body: jsonEncode(body));
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final newAudioUrl = data['response'];
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final String newAudioUrl = data['response'] ?? '';
         if (newAudioUrl.isNotEmpty) {
           setState(() => audioUrl = newAudioUrl);
           await _init();
@@ -93,7 +93,7 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
     try {
         await loadJsonAsset();
           final thumbnailUri = const String.fromEnvironment('GS_GET_THUMBNAIL_URL');
-          final finalThumbnailUri = thumbnailUri + '${widget.selectedStory}_thumbnail.png';
+          final finalThumbnailUri = '$thumbnailUri${widget.selectedStory}_thumbnail.png';
           final source = AudioSource.uri(
           Uri.parse(audioUrl),
           tag: MediaItem(
@@ -135,7 +135,7 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final thumbnailUri = const String.fromEnvironment('GS_GET_THUMBNAIL_URL');
-    final finalThumbnailUri = thumbnailUri + '${widget.selectedStory}_thumbnail.png';
+    final finalThumbnailUri = '$thumbnailUri${widget.selectedStory}_thumbnail.png';
     return Scaffold(
         extendBodyBehindAppBar: true, // This extends the body to be behind the AppBar
         appBar: AppBar(

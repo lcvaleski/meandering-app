@@ -15,7 +15,7 @@ class AudioListScreen extends StatefulWidget {
       {super.key, required this.selectedStory, required this.selectedGender});
 
   @override
-  _AudioListScreenState createState() => _AudioListScreenState();
+  State<AudioListScreen> createState() => _AudioListScreenState();
 }
 
 class _AudioListScreenState extends State<AudioListScreen> {
@@ -24,7 +24,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
 
   Future<void> _checkSubscriptionStatus() async {
     try {
-      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      final CustomerInfo customerInfo = await Purchases.getCustomerInfo();
       setState(() {
         _isSubscribed = customerInfo.entitlements.active[entitlementID]?.isActive ?? false;
       });
@@ -36,7 +36,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
   Future<void> _showPaywall() async {
     try {
       logger.i('Fetching RevenueCat offerings');
-      Offerings? offerings = await Purchases.getOfferings();
+      final Offerings offerings = await Purchases.getOfferings();
 
       if (offerings.current != null) {
         logger.i('Presenting paywall for premium entitlement');
@@ -141,7 +141,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
   /// Displays a message when no audio is found.
   Widget _buildNoAudioMessage() {
     return Center(
-      child: Text("No audio found for ${widget.selectedStory}",
+      child: Text('No audio found for ${widget.selectedStory}',
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
     );
   }
@@ -152,33 +152,12 @@ class _AudioListScreenState extends State<AudioListScreen> {
       return _buildNoAudioMessage();
     }
 
-    List<AudioItem> filteredAudios = categoryData[widget.selectedGender] ?? [];
+    final List<AudioItem> filteredAudios = categoryData[widget.selectedGender] ?? [];
 
     return SingleChildScrollView(
       child: Column(
         children: filteredAudios.map((audioItem) => _buildAudioItem(audioItem)).toList(),
       ),
-    );
-  }
-
-
-  /// Builds a category section with a title and list of audio items.
-  Widget _buildCategory(MapEntry<String, List<AudioItem>> entry) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildAudioItems(entry.value),
-      ],
-    );
-  }
-
-  /// Builds a list of audio items.
-  Widget _buildAudioItems(List<AudioItem> audioItems) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: audioItems.length,
-      itemBuilder: (context, index) => _buildAudioItem(audioItems[index]),
     );
   }
 

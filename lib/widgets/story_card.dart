@@ -8,12 +8,12 @@ class StoryCard extends StatelessWidget {
   final String? selectedGender;
 
   const StoryCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.selectedStory,
     required this.selectedGender,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class StoryCard extends StatelessWidget {
               isArchived: false,
             ),
             settings: RouteSettings(
-              name: 'story_card/play_screen/${selectedStory}_${selectedGender}' // Firebase tracking
+              name: 'story_card/play_screen/${selectedStory}_$selectedGender' // Firebase tracking
             )
           ),
         );
@@ -46,7 +46,7 @@ class StoryCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.yellow.withOpacity(0.2),
+              color: Colors.yellow.withValues(alpha: 51), // 51 is 20% opacity of 255
               blurRadius: 5,
               offset: Offset(0, 3),
             ),

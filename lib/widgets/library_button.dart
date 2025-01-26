@@ -5,7 +5,7 @@ class LibraryButton extends StatelessWidget {
   final String selectedStory;
   final String selectedGender;
 
-  const LibraryButton({Key? key, required this.selectedStory, required this.selectedGender}) : super(key: key);
+  const LibraryButton({super.key, required this.selectedStory, required this.selectedGender});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class LibraryButton extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 51), // 51 is 20% opacity of 255,
               blurRadius: 8,
               offset: Offset(2, 2),
             ),
@@ -50,7 +50,7 @@ class LibraryButton extends StatelessWidget {
           selectedGender: selectedGender,
         ),
         settings: RouteSettings(
-            name: 'audio_library_list/${selectedStory}_${selectedGender}' // Firebase tracking
+            name: 'audio_library_list/${selectedStory}_$selectedGender' // Firebase tracking
         )
       ),
     );

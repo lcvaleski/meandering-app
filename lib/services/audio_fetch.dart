@@ -6,7 +6,7 @@ Future<Map<String, Map<String, List<AudioItem>>>> fetchAudioList() async {
   final response = await http.get(Uri.parse(const String.fromEnvironment('GF_GET_AUDIO_LIST_JSON_URL')));
 
   if (response.statusCode == 200) {
-    final List<dynamic> jsonData = json.decode(response.body)['audios'];
+    final List<dynamic> jsonData = (json.decode(response.body) as Map<String, dynamic>)['audios'] as List<dynamic>;
     final List<AudioItem> audioItems = jsonData.map((item) => AudioItem.fromJson(item)).toList();
 
     // Categorize audio items by Story (topic) and Gender
