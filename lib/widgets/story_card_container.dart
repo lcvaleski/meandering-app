@@ -21,7 +21,7 @@ class StoryCardContainer extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 51), // 51 is 20% opacity of 255
+            color: Colors.black.withOpacity(0.2),
             blurRadius: 10,
             offset: Offset(0, 5),
           ),

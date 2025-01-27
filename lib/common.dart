@@ -35,7 +35,7 @@ class SeekBarState extends State<SeekBar> {
       trackHeight: 2.0,
       activeTrackColor: Colors.yellow,
       thumbColor: Colors.white,
-      overlayColor: Colors.red.withValues(alpha: 51), // 51 is 20% opacity of 255
+      overlayColor: Colors.red.withOpacity(0.2),
     );
   }
 
