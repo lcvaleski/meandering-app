@@ -24,7 +24,7 @@ class LibraryButton extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 51), // 51 is 20% opacity of 255,
+              color: Colors.black.withValues(alpha: 77),
               blurRadius: 8,
               offset: Offset(2, 2),
             ),

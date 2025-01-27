@@ -236,11 +236,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             key: const Key('feedback_button'),
                             onPressed: _launchEmail,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey..withValues(alpha: 51), // 51 is 20% opacity of 255
+                              backgroundColor: Colors.grey.withValues(alpha: 51), // 51 is 20% opacity of 255
                             ),
                             child: Text('support@coventrylabs.net',
                                 style: TextStyle(
-                                    color: Colors.yellow.withValues(alpha: 52))),
+                                    color: Colors.yellow.withValues(alpha: 102))),
                           ),
                           SizedBox(
                             height: 25
