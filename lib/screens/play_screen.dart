@@ -27,15 +27,6 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
   late AudioPlayer _player;
 
 
-  Map<String, dynamic> resourceItems = {};
-  Future<void> loadJsonAsset() async {
-    final String jsonString = await rootBundle.loadString('assets/resources.json');
-    final resData = await jsonDecode(jsonString) as Map<String, dynamic>;
-    setState(() {
-      resourceItems = resData;
-    });
-  }
-
   String audioUrl = '';
   Future<void> fetchAudioUrl() async {
     try {
@@ -91,7 +82,6 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
         });
     // Try to load audio from a source and catch any errors.
     try {
-        await loadJsonAsset();
           final thumbnailUri = const String.fromEnvironment('GS_GET_THUMBNAIL_URL');
           final finalThumbnailUri = '$thumbnailUri${widget.selectedStory}_thumbnail.png';
           final source = AudioSource.uri(
