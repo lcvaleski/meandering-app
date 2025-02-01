@@ -13,18 +13,18 @@ Future<void> configurePurchasesSDK() async {
   try {
     logger.i('Configuring RevenueCat SDK');
     await Purchases.setLogLevel(LogLevel.debug);
-    
-    if (Platform.isIOS || Platform.isMacOS) {
-      logger.d('Configuring for Apple Store');
+
+    if (Platform.isIOS) {
       final config = PurchasesConfiguration(appleApiKey);
       await Purchases.configure(config);
+      logger.d('Apple Store: RevenueCat SDK configured successfully');
     } else if (Platform.isAndroid) {
-      const useAmazon = bool.fromEnvironment('amazon');
-      logger.d('Configuring for ${useAmazon ? "Amazon" : "Play"} Store');
       final config = PurchasesConfiguration(googleApiKey);
       await Purchases.configure(config);
+      logger.d('Play Store: RevenueCat SDK configured successfully');
+    } else {
+      logger.d('Unsupported platform: RevenueCat NOT configured');
     }
-    logger.i('RevenueCat SDK configured successfully');
   } catch (e, stack) {
     logger.e('Failed to configure RevenueCat SDK', error: e, stackTrace: stack);
     rethrow;
