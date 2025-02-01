@@ -46,7 +46,7 @@ class StoryCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.yellow.withOpacity(0.2),
+              color: Colors.yellow.withAlpha((0.2 * 255).toInt()),
               blurRadius: 5,
               offset: Offset(0, 3),
             ),

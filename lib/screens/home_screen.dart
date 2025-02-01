@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withAlpha((0.2 * 255).toInt()),
                         spreadRadius: 0,
                         blurRadius: 3,
                         offset:
@@ -228,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'for sleep audio through AI generated text-to-speech.\n\n'
                             'If you have any feedback:\n',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withAlpha((0.2*255).toInt()),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -236,35 +236,35 @@ class _HomeScreenState extends State<HomeScreen> {
                             key: const Key('feedback_button'),
                             onPressed: _launchEmail,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              backgroundColor: Colors.grey.withAlpha((0.2*255).toInt()),
                             ),
-                            child: Text('support@coventrylabs.net',
-                                style: TextStyle(
-                                    color: Colors.yellow.withOpacity(0.4))),
+                            child: Text('support@coventrylabs.net', style: TextStyle(
+                                    color: Colors.yellow.withAlpha((0.4*255).toInt()))),
                           ),
-                          SizedBox(
+
+                          const SizedBox(
                             height: 25
                           ),
                           ElevatedButton(
                             key: const Key('eula_button'),
                             onPressed: _launchEula,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              backgroundColor: Colors.grey.withAlpha((0.2*255).toInt()),
                             ),
                             child: Text('EULA',
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.2),
+                                style: TextStyle(color: Colors.white.withAlpha((0.2*255).toInt()),
                                 )),
                           ),
                           ElevatedButton(
                             key: const Key('privacy_button'),
                             onPressed: _launchPrivacy,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              backgroundColor: Colors.grey.withAlpha((0.2*255).toInt()),
                             ),
                             child: Text('Privacy',
+
                                 style: TextStyle(
-                                    color: Colors.white.withOpacity(0.2),
+                                    color: Colors.white.withAlpha((0.2*255).toInt()),
                                 )),
                           )
                         ],
