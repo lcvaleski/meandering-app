@@ -7,13 +7,12 @@ This is the Meandering Sleep Flutter app. You can download it from the [Apple Ap
 ## Dev Environment setup
 
 * Testing has not been done with anything higher than Java version 17.0.13
-* the Google audio url variable needs to be defined via --dart-define flag for building/testing/running 
 * Install [Flutter](https://flutter.dev/)
 * Install [Android Studio](https://developer.android.com/studio) with Flutter and Dart plugins
 * If you install version 2024.2.1 or higher, you'll need to explicitly configure Flutter to use your Java 17 version. ``` flutter config --jdk-dir PATH-TO-YOUR-JAVA-INSTALLATION ```
 * Install [XCode](https://developer.apple.com/xcode/) for iOS dev
 * Clone this repo.
-* Create a new project for the app in Android Studio. Do this via File->Open and open the root directory of the cloned project from previous command, 'sleepless_app/', which is one level deeper than the repository directory.
+* Create a new project for the app in Android Studio. Do this via File->Open and open the root directory of the cloned project from previous command, 'meandering-app/', which is one level deeper than the repository directory.
 * Run ``` flutter create --platforms=ios,android . ``` within the /sleepless_app project directory, to create the ios project directories/project files.
 * Install/setup [Firebase Crashlytics/Analytics for Flutter](https://firebase.google.com/docs/crashlytics/get-started?platform=flutter)
 * Open Runner in XCode, and...
@@ -34,15 +33,17 @@ REVCAT_GOOGLE_API_KEY=googlekeyfromrevenuecat
 ```
 
 ## Running unit tests
-
-`flutter test --dart-define=GF_GET_AUDIO_URL=https://domain/ --dart-define=GS_GET_STORAGE_URL=https://domain/ --dart-define=GF_GET_AUDIO_LIST_JSON_URL=https://domain/`
-
-## Running integration tests
-
-[Integration tests](https://docs.flutter.dev/cookbook/testing/integration/introduction) currently have to be run manually, and with a virtual device running. I've only ever done it from within Android Studio (again, with a virtual device running).
+Ensure environment variables are set before running tests (e.g. `--dart-define` each one on the command line).
 
 ```
-flutter test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=https://domain/
+flutter test --dart-define=ENV_VAR_EXAMPLE1=X --dart-define=ENV_VAR_EXAMPLE2=Y
+```
+
+## Running integration tests
+Ensure environment variables are set before running tests (e.g. `--dart-define` each one on the command line`).
+
+```
+flutter test integration_test/app_test.dart --dart-define=ENV_VAR_EXAMPLE1=X --dart-define=ENV_VAR_EXAMPLE2=Y
 ```
 
 ## Running the app
@@ -52,14 +53,14 @@ flutter test integration_test/app_test.dart --dart-define=GF_GET_AUDIO_URL=https
 * In Android Studio, setup an emulator in the `Device Manager`.
 * Run it using the play button in `Device Manager`
 * It switches to the `Running Devices` view.
-* Select the emulator from the device list next to the run configuration.
+* Select the emulator from the device list next to the run configuration, and ensure you have --dart-define environment variables set in the "Additional run args" of the configuration.
 * Run `main.dart`
 
 ### On iOS Simulator (MacOS+XCode required)
 
 * Start the `iOS Simulator` app
 * Install and Run the iPhone Simulator of your choice.
-* In Android Studio, select the simulator from the device list next to the run configuration.
+* In Android Studio, select the simulator from the device list next to the run configuration, and ensure you have --dart-define environment variables set in the "Additional run args" of the configuration.
 * Run `main.dart`
 
 ### On Physical iOS device (e.g. your iPhone)
@@ -110,16 +111,3 @@ etc
 
 * I've found Chrome to work even though we haven't explicitly indicate that the app can build/run there.
 * major issue though is that Chrome doesn't support mp3 files for audio playback, so while you can run/test the UI, audio won't play.
-
-### Formatting
-
-We use a line length of `100` characters, which is good enough to show two files side by side on a modern 27 inch
-screen.
-Line length can be set in Android Studio `Preferences > Editor > Code Style > Dart`.
-
-If your prefer a different line length, feel free to update the `Tasks.mk` to your team's liking
-and have developers configure their IDE as well.
-
-### Cyclic dependencies
-
-Make sure your imports are relative only for files in the same folder, otherwise use `package:` imports.
