@@ -16,7 +16,7 @@
         </intent>
     </queries>
 
-    <application android:label="Meandering" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
+    <application android:label="Meandering" android:icon="@mipmap/ic_launcher">
         <activity
             android:enableOnBackInvokedCallback="true"
             android:name="com.ryanheise.audioservice.AudioServiceFragmentActivity"
