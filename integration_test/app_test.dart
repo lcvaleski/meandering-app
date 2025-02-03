@@ -126,7 +126,7 @@ void main() async {
           final appBar = find.byKey(const Key('audioListScreenAppBar'));
           expect(appBar, findsOneWidget);
 
-          await tester.tap(find.byKey(const ValueKey('playButton')).at(0));
+          await tester.tap(find.byKey(const ValueKey('audioItem')).at(0));
           await tester.pumpAndSettle();
 
           final subscriptionModal = find.byKey(const Key('subscriptionModal'));

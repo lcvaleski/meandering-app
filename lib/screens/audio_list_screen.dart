@@ -100,7 +100,7 @@ class _AudioListScreenState extends State<AudioListScreen> {
         title: Text(
           '${widget.selectedStory} library',
           style: TextStyle(
-            color: Colors.white
+              color: Colors.white
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -163,17 +163,46 @@ class _AudioListScreenState extends State<AudioListScreen> {
 
   /// Builds a single audio item tile.
   Widget _buildAudioItem(AudioItem item) {
-    return ListTile(
-      title: Text(
-        item.subtopic,
-        style: TextStyle(color: Colors.white),
-      ),
-      trailing: IconButton(
-        key: const Key('playButton'),
-        icon: const Icon(Icons.play_arrow, color: Colors.yellow),
-        onPressed: _isSubscribed
-          ? () => _navigateToPlayScreen(item.id)
-          : () => subscriptionModal(context),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 16.0),
+      child: GestureDetector(
+        key: Key('audioItem'),
+        onTap: _isSubscribed
+            ? () => _navigateToPlayScreen(item.id)
+            : () => subscriptionModal(context),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            border: Border.all(color: Colors.black12, width: 7),
+            gradient: const LinearGradient(
+              colors: [Color(0xFF5C6689), Color(0xFF3B3E56)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 8,
+                offset: const Offset(2, 2),
+              ),
+            ],
+          ),
+          child: ListTile(
+            title: Text(
+              item.subtopic,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.play_arrow_rounded,
+              color: Colors.yellow,
+              size: 28,
+            ),
+          ),
+        ),
       ),
     );
   }
