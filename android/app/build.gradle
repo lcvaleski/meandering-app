@@ -72,8 +72,8 @@ android {
         release {
             // Use the release signing config
             signingConfig signingConfigs.release
-            minifyEnabled true // Enable ProGuard for code shrinking and obfuscation
-            shrinkResources true // Remove unused resources
+            minifyEnabled false // Enable ProGuard for code shrinking and obfuscation
+            shrinkResources false // Remove unused resources
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
