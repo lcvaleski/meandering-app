@@ -67,13 +67,29 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: SvgPicture.asset(
-            width: 45,
-            height: 45,
-            'assets/images/logo.svg',
-          ),
-          backgroundColor: Colors.transparent),
+        centerTitle: true,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Meandering',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Audio refreshed daily',
+              style: TextStyle(
+                color: Colors.yellow,
+                fontSize: 11,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.transparent,
+      ),
       body: Container(
         constraints: const BoxConstraints.expand(),
         child: SafeArea(
@@ -182,25 +198,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 ],
                               ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StoryCard(
-                                    key: const Key('weather_card'),
-                                    title: 'Weather',
-                                    subtitle: 'Forecast',
-                                    selectedStory: 'weather',
-                                    selectedGender: _selectedGender,
-                                  ),
-                                  SizedBox(width: 10),
-                                  LibraryButton(
-                                      key: const Key('weather_library'),
-                                      selectedStory: 'weather',
-                                      selectedGender: _selectedGender
-                                  )
-                                ],
-                              ),
                             ],
                           ),
                         ),
@@ -237,6 +234,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: _launchEmail,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey.withAlpha((0.2*255).toInt()),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
                             child: Text('support@coventrylabs.net', style: TextStyle(
                                     color: Colors.yellow.withAlpha((0.4*255).toInt()))),
@@ -250,6 +250,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: _launchEula,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey.withAlpha((0.2*255).toInt()),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
                             child: Text('EULA',
                                 style: TextStyle(color: Colors.white.withAlpha((0.2*255).toInt()),
@@ -260,9 +263,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: _launchPrivacy,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey.withAlpha((0.2*255).toInt()),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
                             child: Text('Privacy',
-
                                 style: TextStyle(
                                     color: Colors.white.withAlpha((0.2*255).toInt()),
                                 )),

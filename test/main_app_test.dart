@@ -20,11 +20,9 @@ void main() async {
 
     final meanderingFinder = find.byKey(Key('meandering_library'));
     final boringFinder = find.byKey(Key('boring_library'));
-    final weatherFinder = find.byKey(Key('weather_library'));
 
     expect(meanderingFinder, findsOneWidget);
     expect(boringFinder, findsOneWidget);
-    expect(weatherFinder, findsOneWidget);
   });
 
   testWidgets('App has email submission button', (tester) async {

@@ -89,7 +89,6 @@ void main() async {
     final scenarios = [
       {'storyType': 'meandering'},
       {'storyType': 'boring'},
-      {'storyType': 'weather'},
     ];
 
     for (var scenario in scenarios) {

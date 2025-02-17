@@ -7,8 +7,8 @@ class StoryCardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 340, // Adjust as needed
-      height: 375, // Adjust as needed
+      width: 340,
+      height: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(
