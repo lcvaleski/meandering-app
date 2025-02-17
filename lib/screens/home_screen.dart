@@ -100,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Padding(
                     padding: const EdgeInsets.only(top: 45.0, bottom: 15),
-                    child: SvgPicture.asset('assets/images/speakingicon.svg')),
+                    child: Icon(Icons.record_voice_over_rounded, color: Colors.white, size: 40,),
+                ),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
