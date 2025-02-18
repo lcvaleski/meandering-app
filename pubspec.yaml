@@ -37,7 +37,6 @@ flutter:
   assets:
     #- assets/audios/
     - assets/icons/
-    - assets/images/
     - assets/resources.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
