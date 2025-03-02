@@ -9,6 +9,7 @@ import '../utils.dart';
 import 'dart:convert';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 
 class PlayScreen extends StatefulWidget {
@@ -156,7 +157,7 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
                 ),
               ),
               // Display play/pause button and volume/speed sliders.
-              ControlButtons(_player),
+              ControlButtons(_player, storyType: widget.selectedStory),
               // Display seek bar. Using StreamBuilder, this widget rebuilds
               // each time the position, buffered position or duration changes.
               StreamBuilder<PositionData>(
@@ -182,8 +183,9 @@ class _PlayScreenState extends State<PlayScreen> with WidgetsBindingObserver {
 /// Displays the play/pause button and volume/speed sliders.
 class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
+  final String? storyType;
 
-  const ControlButtons(this.player, {super.key});
+  const ControlButtons(this.player, {super.key, this.storyType});
 
   @override
   Widget build(BuildContext context) {
@@ -236,21 +238,46 @@ class ControlButtons extends StatelessWidget {
                 color: Colors.white,
                 icon: const Icon(Icons.play_arrow),
                 iconSize: 50.0,
-                onPressed: player.play,
+                onPressed: () {
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'audio_play',
+                    parameters: {
+                      'story_type': storyType ?? 'unknown',
+                    },
+                  );
+                  player.play();
+                },
               );
             } else if (processingState != ProcessingState.completed) {
               return IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.pause),
                 iconSize: 50.0,
-                onPressed: player.pause,
+                onPressed: () {
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'audio_pause',
+                    parameters: {
+                      'story_type': storyType ?? 'unknown',
+                      'position': player.position.inSeconds,
+                    },
+                  );
+                  player.pause();
+                },
               );
             } else {
               return IconButton(
                 color: Colors.white,
                 icon: const Icon(Icons.replay),
                 iconSize: 64.0,
-                onPressed: () => player.seek(Duration.zero),
+                onPressed: () {
+                  FirebaseAnalytics.instance.logEvent(
+                    name: 'audio_replay',
+                    parameters: {
+                      'story_type': storyType ?? 'unknown',
+                    },
+                  );
+                  player.seek(Duration.zero);
+                },
               );
             }
           },
