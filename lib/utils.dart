@@ -11,8 +11,7 @@ String getDayOfWeekString(DateTime now) {
 
 Future<void> configurePurchasesSDK() async {
   try {
-    logger.i('Configuring RevenueCat SDK');
-    await Purchases.setLogLevel(LogLevel.debug);
+    await Purchases.setLogLevel(LogLevel.error);
 
     if (appleApiKey.isEmpty || googleApiKey.isEmpty) {
       throw Exception("RevenueCat API keys must not be empty!");
@@ -20,18 +19,14 @@ Future<void> configurePurchasesSDK() async {
 
     final PurchasesConfiguration config;
     if (Platform.isIOS) {
-      logger.d('Using Apple API Key');
       config = PurchasesConfiguration(appleApiKey);
     } else if (Platform.isAndroid) {
-      logger.d('Using Google API Key');
       config = PurchasesConfiguration(googleApiKey);
     } else {
       logger.e('Unsupported platform: RevenueCat NOT configured');
       return;
     }
     await Purchases.configure(config);
-    logger.d('RevenueCat SDK configured successfully for ${Platform.operatingSystem}');
-
   } catch (e, stack) {
     logger.e('Failed to configure RevenueCat SDK', error: e, stackTrace: stack);
     rethrow;
