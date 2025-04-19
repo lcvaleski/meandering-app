@@ -15,13 +15,14 @@ class ScaffoldWithNavBar extends StatelessWidget {
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.black), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_box_rounded, color: Colors.black), label: 'Account'),
+          BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.white), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_box_rounded, color: Colors.white), label: 'Account'),
         ],
         currentIndex: navigationShell.currentIndex,
         onTap: (int index) => _onTap(context, index),
-        unselectedItemColor: Colors.black,
-        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.white,
+        backgroundColor: Colors.white10,
       ),
     );
   }
