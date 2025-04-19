@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:sleepless_app/main.dart';
+import 'package:sleepless_app/app/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sleepless_app/utils.dart';
 import 'package:sleepless_app/screens/audio_list_screen.dart';
