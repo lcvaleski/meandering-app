@@ -5,12 +5,69 @@ import 'package:sleepless_app/screens/home_screen.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sleepless_app/screens/login_screen.dart';
+import 'package:sleepless_app/screens/play_screen.dart';
+import 'package:sleepless_app/screens/signup_screen.dart';
+import 'package:sleepless_app/screens/splash_screen.dart';
+import 'package:sleepless_app/screens/account_screen.dart';
+import 'package:sleepless_app/widgets/scaffold_with_nav_bar.dart';
 import 'firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:go_router/go_router.dart';
+import 'app/routes.dart';
 import 'utils.dart';
 
 bool get isTestEnv => Platform.environment.containsKey('FLUTTER_TEST');
+
+final GoRouter _router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      name: splashRoute.name,
+      path: splashRoute.path,
+      builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      name: loginRoute.name,
+      path: loginRoute.path,
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      name: signUpRoute.name,
+      path: signUpRoute.path,
+      builder: (context, state) => const SignupScreen(),
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (
+          BuildContext context,
+          GoRouterState state,
+          StatefulNavigationShell navigationShell,
+          ) {
+        return ScaffoldWithNavBar(navigationShell: navigationShell);
+      },
+      branches: <StatefulShellBranch>[
+        StatefulShellBranch(
+          routes: <RouteBase>[
+            GoRoute(
+              name: homeRoute.name,
+              path: homeRoute.path,
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: <RouteBase>[
+            GoRoute(
+              name: accountRoute.name,
+              path: accountRoute.path,
+              builder: (context, state) => const AccountScreen(),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ],
+);
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -30,7 +87,7 @@ class App extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         DefaultMaterialLocalizations.delegate,
@@ -41,10 +98,7 @@ class App extends StatelessWidget {
         fontFamily: 'Montserrat',
         scaffoldBackgroundColor: const Color(0xFF1B1E40),
       ),
-      home: HomeScreen(),
-      navigatorObservers: [
-        if (observer != null) observer,
-      ],
+      routerConfig: _router,
     );
   }
 }
