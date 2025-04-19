@@ -1,18 +1,54 @@
 import 'dart:developer';
 import 'package:sleepless_app/backend/services.dart';
+import 'package:sleepless_app/backend/firebase_auth_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:equatable/equatable.dart';
 import '../models/error_model.dart';
 import '../models/user_model.dart';
 
-abstract class AuthState {}
+abstract class AuthEvent extends Equatable {
+  const AuthEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class CheckAuthStatus extends AuthEvent {}
+
+class SignUpRequested extends AuthEvent {
+  const SignUpRequested(this.user);
+  final UserRegistrationModel user;
+
+  @override
+  List<Object?> get props => [user];
+}
+
+class LoginRequested extends AuthEvent {
+  const LoginRequested(this.user);
+  final UserLoginModel user;
+
+  @override
+  List<Object?> get props => [user];
+}
+
+class SignOutRequested extends AuthEvent {}
+
+abstract class AuthState extends Equatable {
+  const AuthState();
+
+  @override
+  List<Object?> get props => [];
+}
 
 class AuthenticatedState extends AuthState {
-  AuthenticatedState({
+  const AuthenticatedState({
     required this.user,
   });
 
   final UserModel user;
+
+  @override
+  List<Object?> get props => [user];
 }
 
 class UnAuthenticatedState extends AuthState {}
@@ -20,45 +56,53 @@ class UnAuthenticatedState extends AuthState {}
 class AuthLoadingState extends AuthState {}
 
 class AuthErrorState extends AuthState {
-  AuthErrorState({required this.message});
+  const AuthErrorState({required this.message});
 
   final String message;
+
+  @override
+  List<Object?> get props => [message];
 }
 
-// 3. Error handling
-class AuthBloc extends Cubit<AuthState> {
-  AuthBloc(super.initialState, this.authService) {
-    emit(AuthLoadingState());
-    authService.checkForExistingUser().then(
-      (value) {
-        if (value != null) {
-          currentUser = value;
-          emit(AuthenticatedState(user: value));
-        } else {
-          emit(UnAuthenticatedState());
-        }
-      },
-    );
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  AuthBloc({AuthService? authService}) 
+      : authService = authService ?? FirebaseAuthService(),
+        super(AuthLoadingState()) {
+    on<CheckAuthStatus>(_onCheckAuthStatus);
+    on<SignUpRequested>(_onSignUpRequested);
+    on<LoginRequested>(_onLoginRequested);
+    on<SignOutRequested>(_onSignOutRequested);
+    add(CheckAuthStatus());
   }
 
   final AuthService authService;
   UserModel? currentUser;
 
-  Future<void> login({required final UserLoginModel user}) async {
+  Future<void> _onCheckAuthStatus(
+    CheckAuthStatus event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoadingState());
     try {
-      final authUser = await authService.logInWithEmailAndPassword(
-          user.email, user.password);
-      emit(AuthenticatedState(user: authUser));
-    } catch (_) {
-      emit(AuthErrorState(message: "Invalid credentials"));
+      final user = await authService.checkForExistingUser();
+      if (user != null) {
+        currentUser = user;
+        emit(AuthenticatedState(user: user));
+      } else {
+        emit(UnAuthenticatedState());
+      }
+    } catch (e) {
+      emit(AuthErrorState(message: 'Failed to check auth status'));
     }
   }
 
-  Future<void> signUp({required final UserRegistrationModel user}) async {
+  Future<void> _onSignUpRequested(
+    SignUpRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoadingState());
     try {
-      final result = await authService.signUpWithEmailAndPassword(user);
+      final result = await authService.signUpWithEmailAndPassword(event.user);
       emit(AuthenticatedState(user: result));
     } catch (exception, stacktrace) {
       log('Error creating account $exception',
@@ -85,8 +129,30 @@ class AuthBloc extends Cubit<AuthState> {
     }
   }
 
-  Future<void> logout() async {
-    await authService.logout();
-    emit(UnAuthenticatedState());
+  Future<void> _onLoginRequested(
+    LoginRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoadingState());
+    try {
+      final authUser = await authService.logInWithEmailAndPassword(
+          event.user.email, event.user.password);
+      emit(AuthenticatedState(user: authUser));
+    } catch (_) {
+      emit(AuthErrorState(message: "Invalid credentials"));
+    }
+  }
+
+  Future<void> _onSignOutRequested(
+    SignOutRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoadingState());
+    try {
+      await authService.logout();
+      emit(UnAuthenticatedState());
+    } catch (e) {
+      emit(AuthErrorState(message: 'Failed to sign out'));
+    }
   }
 }
