@@ -10,6 +10,8 @@ abstract class AuthService {
     final String password,
   );
 
+  Future<UserModel> signInWithGoogle();
+
   Future<void> logout();
 
   Future<UserModel?> checkForExistingUser();

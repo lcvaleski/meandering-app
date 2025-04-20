@@ -12,13 +12,13 @@ import 'package:sleepless_app/screens/signup_screen.dart';
 import 'package:sleepless_app/screens/splash_screen.dart';
 import 'package:sleepless_app/screens/account_screen.dart';
 import 'package:sleepless_app/widgets/scaffold_with_nav_bar.dart';
-import '../firebase_options.dart';
+import 'firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:go_router/go_router.dart';
-import 'routes.dart';
-import '../utils.dart';
-import '../blocs/auth_bloc.dart';
+import 'app/routes.dart';
+import 'utils.dart';
+import 'blocs/auth_bloc.dart';
 
 bool get isTestEnv => Platform.environment.containsKey('FLUTTER_TEST');
 

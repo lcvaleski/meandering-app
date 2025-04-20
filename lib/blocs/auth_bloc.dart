@@ -31,6 +31,8 @@ class LoginRequested extends AuthEvent {
   List<Object?> get props => [user];
 }
 
+class GoogleSignInRequested extends AuthEvent {}
+
 class SignOutRequested extends AuthEvent {}
 
 abstract class AuthState extends Equatable {
@@ -71,6 +73,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<CheckAuthStatus>(_onCheckAuthStatus);
     on<SignUpRequested>(_onSignUpRequested);
     on<LoginRequested>(_onLoginRequested);
+    on<GoogleSignInRequested>(_onGoogleSignInRequested);
     on<SignOutRequested>(_onSignOutRequested);
     add(CheckAuthStatus());
   }
@@ -122,6 +125,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthenticatedState(user: authUser));
     } catch (_) {
       emit(AuthErrorState(message: "Invalid credentials"));
+    }
+  }
+
+  Future<void> _onGoogleSignInRequested(
+    GoogleSignInRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoadingState());
+    try {
+      final user = await (authService as FirebaseAuthService).signInWithGoogle();
+      emit(AuthenticatedState(user: user));
+    } catch (e) {
+      log('Google sign in error: $e');
+      emit(AuthErrorState(message: 'Failed to sign in with Google'));
     }
   }
 

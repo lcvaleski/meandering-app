@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sleepless_app/app/main.dart';
+import 'package:sleepless_app/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() async {

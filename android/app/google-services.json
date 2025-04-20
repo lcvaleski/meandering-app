@@ -12,7 +12,20 @@
           "package_name": "net.coventry.sleepless"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "19411767388-tajvlr49tdkusjhn59decctompgms87d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.coventry.sleepless",
+            "certificate_hash": "80807e75a7c16048a590d45a07cc6bccfa3d7f7c"
+          }
+        },
+        {
+          "client_id": "19411767388-h51prlnnii7or8cle558l7kqa879gfvn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAnBowwENstI1HVqB8JjuDjPtKaNyN9cWA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19411767388-h51prlnnii7or8cle558l7kqa879gfvn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "19411767388-pvgdj1u0s0biroskh75bk54nq01dbmik.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "net.coventry.sleepless"
+              }
+            }
+          ]
         }
       }
     }

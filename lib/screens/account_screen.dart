@@ -125,6 +125,49 @@ class AccountScreen extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     );
                   }
+                  
+                  if (state is UnAuthenticatedState) {
+                    return Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(GoogleSignInRequested());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 16,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                'assets/google_logo.png',
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                  color: Color(0xFF1B1E40),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    );
+                  }
+                  
                   return ElevatedButton(
                     onPressed: () {
                       context.read<AuthBloc>().add(SignOutRequested());
