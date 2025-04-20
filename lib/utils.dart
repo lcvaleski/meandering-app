@@ -32,3 +32,23 @@ Future<void> configurePurchasesSDK() async {
     rethrow;
   }
 }
+
+Future<void> identifyRevenueCatUser(String firebaseUid) async {
+  try {
+    logger.i('Identifying RevenueCat user with Firebase UID: $firebaseUid');
+    await Purchases.logIn(firebaseUid);
+  } catch (e, stack) {
+    logger.e('Failed to identify RevenueCat user', error: e, stackTrace: stack);
+    // Don't rethrow - we don't want to fail the auth flow if RevenueCat identification fails
+  }
+}
+
+Future<void> logoutRevenueCatUser() async {
+  try {
+    logger.i('Logging out RevenueCat user');
+    await Purchases.logOut();
+  } catch (e, stack) {
+    logger.e('Failed to logout RevenueCat user', error: e, stackTrace: stack);
+    // Don't rethrow - we don't want to fail the logout flow if RevenueCat logout fails
+  }
+}

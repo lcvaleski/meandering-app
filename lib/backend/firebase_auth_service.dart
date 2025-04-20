@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/user_model.dart';
 import 'services.dart';
+import '../utils.dart';
 
 class FirebaseAuthService implements AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,6 +19,9 @@ class FirebaseAuthService implements AuthService {
       if (userCredential.user == null) {
         throw Exception('User creation failed');
       }
+
+      // Identify user with RevenueCat
+      await identifyRevenueCatUser(userCredential.user!.uid);
 
       return UserModel(
         id: userCredential.user!.uid,
@@ -55,6 +59,9 @@ class FirebaseAuthService implements AuthService {
         throw Exception('Login failed');
       }
 
+      // Identify user with RevenueCat
+      await identifyRevenueCatUser(userCredential.user!.uid);
+
       return UserModel(
         id: userCredential.user!.uid,
         email: userCredential.user!.email!,
@@ -68,6 +75,8 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<void> logout() async {
     try {
+      // Log out from RevenueCat before Firebase
+      await logoutRevenueCatUser();
       await _auth.signOut();
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message);
@@ -79,6 +88,9 @@ class FirebaseAuthService implements AuthService {
     try {
       final user = _auth.currentUser;
       if (user == null) return null;
+
+      // Identify user with RevenueCat
+      await identifyRevenueCatUser(user.uid);
 
       return UserModel(
         id: user.uid,

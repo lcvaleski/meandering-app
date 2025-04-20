@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import '../blocs/auth_bloc.dart';
+import '../services/logger_service.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
+
+  Future<CustomerInfo?> _getCustomerInfo() async {
+    try {
+      final customerInfo = await Purchases.getCustomerInfo();
+      logger.i('RevenueCat Customer Info: ${customerInfo.originalAppUserId}');
+      return customerInfo;
+    } catch (e) {
+      logger.e('Failed to get customer info', error: e);
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +54,62 @@ class AccountScreen extends StatelessWidget {
                     return Column(
                       children: [
                         Text(
-                          state.user.email,
+                          'Email: ${state.user.email}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                           ),
+                        ),
+                        Text(
+                          'Firebase UID: ${state.user.id}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        FutureBuilder<CustomerInfo?>(
+                          future: _getCustomerInfo(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            }
+                            
+                            if (snapshot.hasError) {
+                              return Text(
+                                'Error: ${snapshot.error}',
+                                style: const TextStyle(color: Colors.red),
+                              );
+                            }
+
+                            final customerInfo = snapshot.data;
+                            if (customerInfo == null) {
+                              return const Text(
+                                'No RevenueCat customer info available',
+                                style: TextStyle(color: Colors.orange),
+                              );
+                            }
+
+                            return Column(
+                              children: [
+                                Text(
+                                  'RevenueCat ID: ${customerInfo.originalAppUserId}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Active Subscriptions: ${customerInfo.entitlements.active.length}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         const SizedBox(height: 24),
                       ],
