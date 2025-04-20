@@ -104,28 +104,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final result = await authService.signUpWithEmailAndPassword(event.user);
       emit(AuthenticatedState(user: result));
-    } catch (exception, stacktrace) {
-      log('Error creating account $exception',
-          stackTrace: stacktrace, level: 1000);
-      if (exception is MeanderingException) {
-        switch (exception.errorCode) {
-          case 401:
-            emit(AuthErrorState(message: "Email already in use"));
-          case 402:
-            emit(
-              AuthErrorState(
-                  message: 'Password should be at least 6 characters'),
-            );
-          case 403:
-            emit(
-              AuthErrorState(message: 'Not a valid email'),
-            );
-          default:
-            emit(
-              AuthErrorState(message: 'Something went wrong, please see logs'),
-            );
-        }
-      }
+    } catch (exception) {
+      log('Error creating account: $exception');
+      emit(UnAuthenticatedState());
+      emit(AuthErrorState(message: exception.toString()));
     }
   }
 

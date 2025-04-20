@@ -25,7 +25,18 @@ class FirebaseAuthService implements AuthService {
         token: '', // You'll need to generate a Stream token here
       );
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+      switch (e.code) {
+        case 'email-already-in-use':
+          throw Exception('The email address is already in use by another account.');
+        case 'invalid-email':
+          throw Exception('The email address is not valid.');
+        case 'operation-not-allowed':
+          throw Exception('Email/password accounts are not enabled.');
+        case 'weak-password':
+          throw Exception('The password is too weak.');
+        default:
+          throw Exception(e.message ?? 'An error occurred during sign up.');
+      }
     }
   }
 
