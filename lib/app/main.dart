@@ -77,7 +77,7 @@ class _AppState extends State<App> {
             ),
             routerConfig: GoRouter(
               navigatorKey: routerKey,
-              initialLocation: '/',
+              initialLocation: '/splash',
               refreshListenable: GoRouterRefreshStream<AuthState>(
                 context.read<AuthBloc>().stream,
               ),
@@ -130,10 +130,20 @@ class _AppState extends State<App> {
               redirect: (context, state) {
                 final authState = context.read<AuthBloc>().state;
                 final isAuthPage = state.matchedLocation == '/login' || 
-                                  state.matchedLocation == '/signup';
+                                 state.matchedLocation == '/signup';
+                final isSplashPage = state.matchedLocation == '/splash';
 
+                // Don't redirect while loading
                 if (authState is AuthLoadingState) {
-                  return null;
+                  return isSplashPage ? null : '/splash';
+                }
+
+                // After loading, don't allow going back to splash
+                if (isSplashPage && authState is! AuthLoadingState) {
+                  if (authState is AuthenticatedState) {
+                    return '/';
+                  }
+                  return '/login';
                 }
 
                 if (authState is AuthenticatedState) {
