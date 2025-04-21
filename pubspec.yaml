@@ -2,7 +2,7 @@ name: sleepless_app
 description: sleepless app
 publish_to: 'none'
 
-version: 0.1.9+36
+version: 0.2.0+37
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
@@ -15,6 +15,7 @@ dependencies:
   flutter_svg: ^2.0.14
   just_audio: ^0.9.46
   just_audio_background: ^0.0.1-beta.15
+  audio_service: ^0.18.10
   firebase_core: ^3.11.0
   firebase_analytics: ^11.4.2
   firebase_crashlytics: ^4.3.2
