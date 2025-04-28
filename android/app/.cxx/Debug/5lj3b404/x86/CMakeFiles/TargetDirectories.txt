@@ -1,0 +1,2 @@
+/Users/loganvaleski/git_projects/active_git/meandering-app/android/app/.cxx/Debug/5lj3b404/x86/CMakeFiles/edit_cache.dir
+/Users/loganvaleski/git_projects/active_git/meandering-app/android/app/.cxx/Debug/5lj3b404/x86/CMakeFiles/rebuild_cache.dir

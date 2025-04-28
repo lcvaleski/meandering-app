@@ -5,21 +5,34 @@ import 'package:sleepless_app/main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:sleepless_app/utils.dart';
 import 'package:sleepless_app/screens/audio_list_screen.dart';
+import 'package:sleepless_app/backend/services.dart';
+import 'package:sleepless_app/models/user_model.dart';
+import 'package:sleepless_app/blocs/auth_bloc.dart';
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
-        await configurePurchasesSDK();
-        await Firebase.initializeApp();
+    await configurePurchasesSDK();
+    await Firebase.initializeApp();
   });
 
-  group('end-to-end test', () {
+  Future<void> navigateToHomeScreen(WidgetTester tester) async {
+    // Create a mock auth service that returns authenticated state
+    final mockAuthService = MockAuthService();
+    final app = App(authService: mockAuthService);
+    
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+    
+    // Wait for navigation to complete
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+  }
 
+  group('end-to-end test', () {
     testWidgets('tap on the female gender button, verify selected',
             (tester) async {
-          // Load app widget.
-          await tester.pumpWidget(const App());
+          await navigateToHomeScreen(tester);
 
           final genderSlider = find.byKey(const Key('genderSlider'));
           expect(genderSlider, findsOneWidget);
@@ -38,8 +51,7 @@ void main() async {
 
     testWidgets('make sure the playback speed and volume dialogs load',
             (tester) async {
-          // Load app widget.
-          await tester.pumpWidget(const App());
+          await navigateToHomeScreen(tester);
 
           final meanderButton = find.byKey(const Key('meandering_card'));
           expect(meanderButton, findsOneWidget);
@@ -95,7 +107,7 @@ void main() async {
       testWidgets(
           'verify ${scenario['storyType']} library button tap behaviors',
               (WidgetTester tester) async {
-                await tester.pumpWidget(const App());
+                await navigateToHomeScreen(tester);
 
                 final button = find.byKey(Key('${scenario['storyType']}_library'));
                 expect(button, findsOneWidget);
@@ -114,7 +126,7 @@ void main() async {
 
     testWidgets('tap on a library button then the first play button, Subscribe to access modal should pop up',
             (tester) async {
-          await tester.pumpWidget(const App());
+          await navigateToHomeScreen(tester);
 
           final meanderButton = find.byKey(const Key('meandering_library'));
           expect(meanderButton, findsOneWidget);
@@ -132,4 +144,35 @@ void main() async {
           expect(subscriptionModal, findsOneWidget);
         });
   });
+}
+
+// Mock AuthService for testing
+class MockAuthService extends AuthService {
+  final _mockUser = UserModel(
+    id: 'test-user-id',
+    email: 'test@example.com',
+  );
+
+  @override
+  Future<UserModel> signUpWithEmailAndPassword(UserRegistrationModel user) async {
+    return _mockUser;
+  }
+
+  @override
+  Future<UserModel> logInWithEmailAndPassword(String email, String password) async {
+    return _mockUser;
+  }
+
+  @override
+  Future<void> logout() async {
+    // No-op for testing
+  }
+
+  @override
+  Future<UserModel?> checkForExistingUser() async {
+    return _mockUser;
+  }
+
+  @override
+  Stream<AuthState> get authStateChanges => Stream.value(AuthenticatedState(user: _mockUser));
 }
