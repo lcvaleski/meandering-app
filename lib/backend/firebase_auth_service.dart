@@ -1,42 +1,94 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_model.dart';
 import 'services.dart';
 import '../utils.dart';
 
 class FirebaseAuthService implements AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  static const String _emailKey = 'auth_email';
+
+  final ActionCodeSettings actionCodeSettings = ActionCodeSettings(
+    url: 'meandering://auth', // Custom URL scheme for deep linking
+    handleCodeInApp: true,
+    androidPackageName: 'net.coventry.sleepless',
+    iOSBundleId: 'net.coventry.sleepless',
+  );
+
+  // Add method to store email during sign-in process
+  Future<void> _storeEmail(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_emailKey, email);
+  }
+
+  // Add method to retrieve stored email
+  Future<String?> _getStoredEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_emailKey);
+  }
+
+  // Add method to clear stored email
+  Future<void> _clearStoredEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_emailKey);
+  }
+
+  // Add method to handle the email sign-in link
+  Future<bool> handleEmailLink(String emailLink) async {
+    try {
+      if (_auth.isSignInWithEmailLink(emailLink)) {
+        // Get the email from storage
+        final email = await _getStoredEmail();
+        if (email == null) {
+          throw Exception('No email found for verification');
+        }
+
+        // Complete sign in
+        final userCredential = await _auth.signInWithEmailLink(
+          email: email,
+          emailLink: emailLink,
+        );
+
+        if (userCredential.user != null) {
+          // Identify user with RevenueCat
+          await identifyRevenueCatUser(userCredential.user!.uid);
+          // Clear the stored email
+          await _clearStoredEmail();
+          return true;
+        }
+      }
+      return false;
+    } catch (e) {
+      print('Error handling email link: $e');
+      return false;
+    }
+  }
 
   @override
   Future<UserModel> signUpWithEmailAndPassword(
       final UserRegistrationModel user,
       ) async {
     try {
-      final userCredential = await _auth.createUserWithEmailAndPassword(
+      // Store the email for later use
+      await _storeEmail(user.email);
+
+      // Send sign in link to email
+      await _auth.sendSignInLinkToEmail(
         email: user.email,
-        password: user.password,
+        actionCodeSettings: actionCodeSettings,
       );
 
-      if (userCredential.user == null) {
-        throw Exception('User creation failed');
-      }
-
-      // Identify user with RevenueCat
-      await identifyRevenueCatUser(userCredential.user!.uid);
-
+      // Return a temporary user model - actual authentication will happen when they click the link
       return UserModel(
-        id: userCredential.user!.uid,
-        email: userCredential.user!.email!,
+        id: 'pending',
+        email: user.email,
       );
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case 'email-already-in-use':
-          throw Exception('The email address is already in use by another account.');
         case 'invalid-email':
           throw Exception('The email address is not valid.');
         case 'operation-not-allowed':
-          throw Exception('Email/password accounts are not enabled.');
-        case 'weak-password':
-          throw Exception('The password is too weak.');
+          throw Exception('Email link authentication is not enabled.');
         default:
           throw Exception(e.message ?? 'An error occurred during sign up.');
       }
@@ -49,24 +101,29 @@ class FirebaseAuthService implements AuthService {
       final String password,
       ) async {
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(
+      // Store the email for later use
+      await _storeEmail(email);
+
+      // Send sign in link to email
+      await _auth.sendSignInLinkToEmail(
         email: email,
-        password: password,
+        actionCodeSettings: actionCodeSettings,
       );
 
-      if (userCredential.user == null) {
-        throw Exception('Login failed');
-      }
-
-      // Identify user with RevenueCat
-      await identifyRevenueCatUser(userCredential.user!.uid);
-
+      // Return a temporary user model - actual authentication will happen when they click the link
       return UserModel(
-        id: userCredential.user!.uid,
-        email: userCredential.user!.email!,
+        id: 'pending',
+        email: email,
       );
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.message);
+      switch (e.code) {
+        case 'invalid-email':
+          throw Exception('The email address is not valid.');
+        case 'operation-not-allowed':
+          throw Exception('Email link authentication is not enabled.');
+        default:
+          throw Exception(e.message ?? 'An error occurred during login.');
+      }
     }
   }
 

@@ -12,6 +12,7 @@ import 'package:sleepless_app/screens/signup_screen.dart';
 import 'package:sleepless_app/screens/splash_screen.dart';
 import 'package:sleepless_app/screens/account_screen.dart';
 import 'package:sleepless_app/widgets/scaffold_with_nav_bar.dart';
+import 'backend/firebase_auth_service.dart';
 import 'backend/services.dart';
 import 'firebase_options.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -20,6 +21,7 @@ import 'package:go_router/go_router.dart';
 import 'app/routes.dart';
 import 'utils.dart';
 import 'blocs/auth_bloc.dart';
+import 'package:uni_links/uni_links.dart';
 
 bool get isTestEnv => Platform.environment.containsKey('FLUTTER_TEST');
 
@@ -35,16 +37,57 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   late final AuthBloc authBloc;
   late final GlobalKey<NavigatorState> routerKey;
+  StreamSubscription? _deepLinkSubscription;
 
   @override
   void initState() {
     super.initState();
     authBloc = AuthBloc(authService: widget.authService)..add(CheckAuthStatus());
     routerKey = GlobalKey<NavigatorState>(debugLabel: 'GO Router Key');
+    _initDeepLinkHandling();
+  }
+
+  Future<void> _initDeepLinkHandling() async {
+    // Handle any initial links (if app was opened from terminated state)
+    try {
+      final initialLink = await getInitialLink();
+      if (initialLink != null) {
+        _handleDeepLink(Uri.parse(initialLink));
+      }
+    } catch (e) {
+      print('Error handling initial deep link: $e');
+    }
+
+    // Listen for deep link events while app is running
+    _deepLinkSubscription = uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        _handleDeepLink(uri);
+      }
+    }, onError: (err) {
+      print('Error handling deep link: $err');
+    });
+  }
+
+  void _handleDeepLink(Uri uri) {
+    if (uri.scheme == 'meandering' && uri.host == 'auth') {
+      // Get the FirebaseAuthService instance from the AuthBloc
+      final authService = authBloc.authService as FirebaseAuthService;
+      // Handle the sign-in link
+      authService.handleEmailLink(uri.toString()).then((success) {
+        if (success) {
+          // Trigger a check of auth status which will redirect if needed
+          authBloc.add(CheckAuthStatus());
+        }
+      }).catchError((error) {
+        // You might want to show an error message to the user
+        print('Error completing sign-in: $error');
+      });
+    }
   }
 
   @override
   void dispose() {
+    _deepLinkSubscription?.cancel();
     authBloc.close();
     super.dispose();
   }
