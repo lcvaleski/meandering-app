@@ -13,6 +13,8 @@ abstract class AuthService {
   Future<void> logout();
 
   Future<UserModel?> checkForExistingUser();
+
+  Future<void> deleteAccount();
 }
 
 abstract class DatabaseService {

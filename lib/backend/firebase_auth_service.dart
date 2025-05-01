@@ -98,4 +98,27 @@ class FirebaseAuthService implements AuthService {
       throw Exception(e.message);
     }
   }
+
+  Future<void> deleteAccount() async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw Exception('No user is currently signed in');
+      }
+
+      // Check if we need re-authentication
+      try {
+        // This will throw if we need re-authentication
+        await user.delete();
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'requires-recent-login') {
+          await logout();
+          throw Exception('Please sign in again before deleting your account');
+        }
+        rethrow;
+      }
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.message ?? 'Failed to delete account');
+    }
+  }
 }

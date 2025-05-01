@@ -88,6 +88,11 @@ class MockAuthService extends AuthService {
   }
 
   @override
+  Future<void> deleteAccount() async {
+    // No-op for testing
+  }
+
+  @override
   Future<UserModel?> checkForExistingUser() async {
     return _mockUser;
   }

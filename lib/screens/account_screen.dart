@@ -18,6 +18,71 @@ class AccountScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _showDeleteAccountDialog(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Delete Account',
+        ),
+        content: const Text(
+          'Are you sure you want to delete your account? This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red,
+            ),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      try {
+        final authService = context.read<AuthBloc>().authService;
+        await authService.deleteAccount();
+        if (context.mounted) {
+          context.read<AuthBloc>().add(SignOutRequested());
+        }
+      } catch (e) {
+        if (context.mounted) {
+          if (e.toString().contains('check your email')) {
+            // Show a dialog explaining they need to check their email
+            await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Re-authentication Required'),
+                content: const Text(
+                  'For security reasons, you need to re-authenticate before deleting your account. Please check your email for a verification link.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(e.toString()),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,6 +199,19 @@ class AccountScreen extends StatelessWidget {
                     ),
                   );
                 },
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => _showDeleteAccountDialog(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                child: const Text(
+                  'Delete Account',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
