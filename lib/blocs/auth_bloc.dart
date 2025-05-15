@@ -32,6 +32,8 @@ class LoginRequested extends AuthEvent {
 
 class SignOutRequested extends AuthEvent {}
 
+class GoogleSignInRequested extends AuthEvent {}
+
 abstract class AuthState extends Equatable {
   const AuthState();
 
@@ -71,6 +73,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpRequested>(_onSignUpRequested);
     on<LoginRequested>(_onLoginRequested);
     on<SignOutRequested>(_onSignOutRequested);
+    on<GoogleSignInRequested>(_onGoogleSignInRequested);
     add(CheckAuthStatus());
   }
 
@@ -134,6 +137,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(UnAuthenticatedState());
     } catch (e) {
       emit(AuthErrorState(message: 'Failed to sign out'));
+    }
+  }
+
+  Future<void> _onGoogleSignInRequested(
+      GoogleSignInRequested event,
+      Emitter<AuthState> emit,
+      ) async {
+    emit(AuthLoadingState());
+    try {
+      final user = await authService.signInWithGoogle();
+      emit(AuthenticatedState(user: user));
+    } catch (e) {
+      log('Error during Google Sign In: $e');
+      emit(AuthErrorState(message: e.toString()));
     }
   }
 }

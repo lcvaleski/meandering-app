@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import GoogleSignIn
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -8,6 +9,24 @@ import Flutter
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+    
+    // Initialize Google Sign-In
+    GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+      if error != nil || user == nil {
+        // Show the app's signed-out state.
+      } else {
+        // Show the app's signed-in state.
+      }
+    }
+    
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+
+  override func application(
+    _ app: UIApplication,
+    open url: URL,
+    options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+  ) -> Bool {
+    return GIDSignIn.sharedInstance.handle(url)
   }
 }

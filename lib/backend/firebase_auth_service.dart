@@ -1,10 +1,21 @@
+import 'dart:io' show Platform;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user_model.dart';
 import 'services.dart';
 import '../utils.dart';
 
 class FirebaseAuthService implements AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: Platform.isAndroid
+        ? '19411767388-h51prlnnii7or8cle558l7kqa879gfvn.apps.googleusercontent.com'
+        : null, // iOS uses Info.plist
+    scopes: <String>[
+      'email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    ],
+  );
 
   @override
   Future<UserModel> signUpWithEmailAndPassword(
@@ -73,6 +84,8 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<void> logout() async {
     try {
+      // Sign out from Google
+      await _googleSignIn.signOut();
       // Log out from RevenueCat before Firebase
       await logoutRevenueCatUser();
       await _auth.signOut(); // Sign out from Firebase
@@ -119,6 +132,42 @@ class FirebaseAuthService implements AuthService {
       }
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message ?? 'Failed to delete account');
+    }
+  }
+
+  Future<UserModel> signInWithGoogle() async {
+    try {
+      // Trigger the Google Sign In flow
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        throw Exception('Google Sign In was aborted');
+      }
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase with the Google credential
+      final userCredential = await _auth.signInWithCredential(credential);
+
+      if (userCredential.user == null) {
+        throw Exception('Google Sign In failed');
+      }
+
+      // Identify user with RevenueCat
+      await identifyRevenueCatUser(userCredential.user!.uid);
+
+      return UserModel(
+        id: userCredential.user!.uid,
+        email: userCredential.user!.email!,
+      );
+    } catch (e) {
+      throw Exception('Failed to sign in with Google: ${e.toString()}');
     }
   }
 }

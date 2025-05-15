@@ -15,6 +15,8 @@ abstract class AuthService {
   Future<UserModel?> checkForExistingUser();
 
   Future<void> deleteAccount();
+
+  Future<UserModel> signInWithGoogle();
 }
 
 abstract class DatabaseService {

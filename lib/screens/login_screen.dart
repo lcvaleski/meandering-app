@@ -176,6 +176,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 16),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                context.read<AuthBloc>().add(GoogleSignInRequested());
+                              },
+                              icon: Icon(Icons.login, color: Color(0xFF1B1E40)),
+                              label: const Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                  color: Color(0xFF1B1E40),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                minimumSize: const Size.fromHeight(50),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
                           ],
                         );
                       },

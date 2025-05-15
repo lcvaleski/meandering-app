@@ -99,4 +99,10 @@ class MockAuthService extends AuthService {
 
   @override
   Stream<AuthState> get authStateChanges => Stream.value(AuthenticatedState(user: _mockUser));
+
+  @override
+  Future<UserModel> signInWithGoogle() {
+    // TODO: implement signInWithGoogle
+    throw UnimplementedError();
+  }
 }
